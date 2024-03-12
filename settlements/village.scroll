@@ -1,0 +1,99 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+VillageDistrict(District) {
+  Title = Village District
+  CostFactor = 0.9
+  << Advert
+  << LocalRumor
+  [5..19 shops!] @ TownShops
+  | District
+}
+
+Village(Settlement) {
+  | Settlement
+
+  Title! = "village of {{title(NamePart)}}"
+
+  Prefix! @ [
+    * thriving
+    * bustling
+    * sleepy
+    * flourishing
+    * lively
+    * struggling
+    * growing
+    * withering
+    * prospering
+    * expanding
+  ]
+
+  Connector! @ [
+    * blends seamlessly
+    * sits quietly
+    * rests peacefully
+  ]
+
+  District? @ VillageDistrict
+  Population? = "{{int(District.Population)}}"
+
+  GAlignment @ [
+    *(x5) Lawful
+    *(x1) Neutral
+  ]
+  [2..3 Guards?] @ Guard {
+     Alignment = &GAlignment
+     HostingEntity := &uuid
+     Profession = "guard"
+     URLExt = "/location/{{HostingEntity}}/npc/{{uuid}}"
+  }
+
+  Overview? ~ <%
+    <p>
+      Population: {{Population}} villagers
+    </p>
+    <h5>Village Shops & Services</h5>
+    {{District.Index}}
+    {% if exists("Guards") %}
+    <h5>Guards</h5>
+    {% for g in Guards %}
+    <a class="npc-anchor" id="{{g.uuid}}"></a>
+    <p>
+    {{reroller(g)}} {{g.Description}}
+    {{g.Stats}}
+    {% if g.Association %}
+    <ul>
+    {{g.Association}}
+    </ul>
+    {% endif %}
+    <hr/>
+    </p>
+    {% endfor %}
+    {% endif %}
+  %>
+
+  Supplemental! = ""
+
+  Brief? = <%
+    {{Overview}}
+  %>
+
+  <metadata%
+    <a class="map-coords" hex="{{HexLink}}" x="0" y="0" zoom="6"> </a>
+  %metadata>
+
+  <header%
+    <div hidden id="doc-title"> {{capitalize(Title)}} from {{Realm}}</div>
+    <h4 id="title">
+    <span id="editable-title" data-attr="NamePart" data-map-label="true">{{NamePart}}</span>
+    {{Breadcrumbs}}
+    </h4>
+  %header>
+
+  <body%
+    {{Brief}}
+  %body>
+}
+

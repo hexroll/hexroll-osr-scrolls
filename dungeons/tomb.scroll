@@ -1,0 +1,63 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+TombFeatureTier1 {
+  ^ [
+    *(x3) DungeonEncounterVerminsTier1
+    *(x2) DungeonEncounterHumanoidsTier1
+    * DungeonTreasureTier1
+    * DungeonRemains
+    * DungeonFungi
+    * DungeonPool
+    ]
+}
+
+TombFeatureTier2 {
+  ^ [
+    *(x2) DungeonEncounterUndead
+    * DungeonTreasureTier2
+    * DungeonRemains
+    * DungeonFungi
+    * DungeonPool
+    ]
+}
+
+TombFeatureTier3 {
+  ^ [
+    *(x2) DungeonEncounterUndeadTier3
+    * DungeonTreasureTier3
+    * DungeonRemains
+    * DungeonFungi
+    * DungeonPool
+    ]
+}
+
+TombFeatureTier4 {
+  ^ [
+    *(x10) DungeonEncounterUndeadTier4
+    * DungeonTreasureTier4
+    ]
+}
+
+Tomb(Dungeon) {
+  Name! @ TombName
+  HexLink! = :Hex.uuid
+  Coords! = <%
+    <a class="map-coords" hex="{{HexLink}}" x="0" y="0" zoom="7"> </a>
+  %>
+  FactionLair = none
+
+  | Dungeon
+
+  DungeonFeatureTier1 = TombFeatureTier1
+  DungeonFeatureTier2 = TombFeatureTier2
+  DungeonFeatureTier3 = TombFeatureTier3
+  DungeonFeatureTier4 = TombFeatureTier4
+
+  map @ DungeonMap
+
+  WanderingMonsters @ DungeonWanderingMonsters
+}
+

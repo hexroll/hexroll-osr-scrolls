@@ -1,0 +1,177 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+EntourageChiefCommander {
+  ^ [
+      * FighterLevel10
+      * FighterLevel11
+      * DwarfLevel10
+      * ElfLevel9
+  ]
+}
+
+EntourageCleric {
+  ^ [
+    * ClericLevel10
+    * ClericLevel11
+  ]
+}
+
+EntourageSage {
+  ^ [
+      * MagicuserLevel10
+      * MagicuserLevel11
+      * ElfLevel9
+  ]
+}
+
+EntourageConfidant {
+  ^ [
+      * HalflingLevel7
+      * DwarfLevel10
+      * ElfLevel9
+      * ThiefLevel10
+      * ThiefLevel11
+  ]
+}
+
+NobleRuler {
+  ^ [
+    * FighterLevel12
+    * FighterLevel13
+    * ElfLevel10
+    * DwarfLevel11
+    * HalflingLevel8
+  ]
+}
+
+BishopRuler {
+  ^ [
+    * ClericLevel12
+    * ClericLevel13
+  ]
+}
+
+MonarchRuler {
+  ^ [
+    * FighterLevel12
+    * FighterLevel13
+    * ElfLevel10
+    * DwarfLevel11
+    * HalflingLevel8
+  ]
+}
+
+WarexpertRuler {
+  ^ [
+    * FighterLevel12
+    * FighterLevel13
+    * ElfLevel10
+    * DwarfLevel11
+    * HalflingLevel8
+  ]
+}
+
+NecromancerRuler {
+  ^ [
+   * MagicuserLevel12
+   * MagicuserLevel13
+  ]
+}
+
+CultLeader {
+  ^ [
+    * MagicuserLevel6
+    * MagicuserLevel7
+    * MagicuserLevel8
+    * MagicuserLevel9
+    * ClericLevel6
+    * ClericLevel7
+    * ClericLevel8
+    * ClericLevel9
+  ]
+}
+
+MilitiaLeader {
+  ^ [
+    * FighterLevel6
+    * FighterLevel7
+    * FighterLevel8
+    * FighterLevel9
+    * FighterLevel10
+  ]
+}
+
+SyndicateLeader {
+  ^ [
+    * ThiefLevel6
+    * ThiefLevel7
+    * ThiefLevel8
+    * ThiefLevel9
+    * ThiefLevel10
+  ]
+}
+
+ArenaJudge {
+  ^ [
+    * FighterLevel6
+    * FighterLevel7
+    * HalflingLevel6
+    * HalflingLevel7
+  ]
+}
+
+ArenaContestant {
+  ^ [
+    * FighterLevel3
+    * FighterLevel4
+    * FighterLevel5
+  ]
+}
+
+CastleResident {
+  ^ [
+    * FighterLevel4
+    * FighterLevel5
+    * FighterLevel6
+    * FighterLevel7
+    * FighterLevel8
+    * FighterLevel9
+    * FighterLevel10
+    * FighterLevel11
+  ]
+}
+
+MagicAcademyMedium {
+  ^ [
+    * MagicuserLevel1
+    * MagicuserLevel2
+  ]
+}
+
+MagicLaboratoryAssistant {
+  ^ [
+    * MagicuserLevel1
+    * MagicuserLevel2
+  ]
+}
+
+WizardTowerResident {
+  ^ [
+    * MagicuserLevel11
+    * MagicuserLevel12
+  ]
+}
+
+PirateShipCaptain {
+  ^ [
+    * FighterLevel5
+    * FighterLevel6
+    * HalflingLevel5
+    * HalflingLevel6
+    * ElfLevel5
+    * ElfLevel6
+  ]
+}

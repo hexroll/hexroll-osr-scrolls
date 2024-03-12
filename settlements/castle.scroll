@@ -1,0 +1,32 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+Castle {
+  Used = false
+  RealmType = null
+  RulerTitle ~ <%
+    {% if RealmType %}<a href="{{sandbox()}}{{RealmType.Ruler.NPC.URLExt}}"><strong>{{RealmType.Ruler.Title}} {{RealmType.Ruler.NPC.Name.Full}}</strong></a>{% endif %}
+  %>
+  SettlementName = *Settlement.NamePart
+  SettlementUUID = :Settlement.uuid
+  SettlementClass! = :Settlement.class
+  Type @ [
+    * citadel
+    * castle
+    * palace
+  ]
+  Title! ~ <%
+  <a href="{{sandbox()}}/location/{{SettlementUUID}}"><strong>{{Type}} in {{capitalize(SettlementName)}}</strong></a>
+  %>
+
+  Desc! ~ <%
+    {% if Used %}
+    <h5> The {{Type}} </h5>
+    The {{Type}} is the formal residence of {{RulerTitle}}.
+    {% endif %}
+  %>
+}
+
+

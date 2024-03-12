@@ -1,0 +1,80 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+Desert {
+  Name! = Desert
+  Supplemental! @ [
+    * The sand here is as dark as the night. Not a fire nor a volcano could have
+      been the cause.
+
+    * You can clearly see bones revealing under the dunes when the wind shifts
+      the sand. This was no land of peace.
+
+    * Surrounded by the soft dunes, a huge rock shaped like a dome is planted in
+      the sand. It is almost too slippery to climb on.
+
+    * Either wind or some other force creates dozens of giant sand vortexes
+      here, as tall as the eye can see.
+
+    * There are numerous sinkholes in the sands here. Some of them are big
+      enough to swallow an inn.
+
+    * The wind here is gentle and the sand is soft and warm. Large canopied
+      desert trees provide enough shadow to rest or camp under.
+
+    * Vast dunes stretch in all directions, shimmering in the desert heat. The
+      sun makes the sand scorching hot.
+
+    * Tall pillars of rock emerge from the sands here, like giant columns to
+      support the cloudless sky.
+
+    * The sand here is riddled with small craters, as if a cluster of rocks rained
+      violently from above.
+
+    * A giant perfect wall of stones stands lonely and unconnected in the middle
+      of the wasteland, with only empty stretches of sand to surround it.
+
+    * Gusts of warm desert wind sweep and swirl the sands, creating ghost-like
+      clouds of desert dust.
+  ]
+  Location! @ [
+    * on the dunes sands
+    * near an oasis
+    * between two giant dunes
+    * beside the ruins of a pyramid
+    * near an ancient monument
+  ]
+  Hideout! @ [
+    * under the ruins of an ancient temple
+    * underground
+    * near an abandoned ritual site
+  ]
+}
+
+DesertRandomEncounterTable {
+  [4..4 OtherEncounters!] @ DesertRandomEncounter
+}
+
+DesertHex (Hex) {
+  Terrain! @ Desert
+  Monster! @ DesertFeatureEncounter
+  RandomEncounters @ DesertRandomEncounterTable
+  ExtensionTypeClass = "DesertHexExtension"
+  | Hex
+}
+
+DesertRegion (Region) {
+  Suffix @ [
+    * Dunes
+    * Desert
+    * Wastelands
+    * Barrens
+    * Wastes
+  ]
+  | Region
+  Weather? @ DesertWeatherContainer
+  [$minimum_tiles_per_desert_region..$maximum_tiles_per_desert_region Hexmap?] @ DesertHex
+}
+

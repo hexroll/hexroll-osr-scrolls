@@ -1,0 +1,92 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+DungeonNameNoun = [
+    * skeletons
+    * ogre
+    * lich
+    * goblin
+    * blades
+    * spider
+    * souls
+    * horrors
+    * blood
+    * fire
+    * witch
+    * desire
+    * hopes
+    * pain
+    * pits
+    * order
+    * slaves
+]
+
+DungeonNameAdjective = [
+    * betraying
+    * corrupted
+    * grey
+    * corrupted
+    * lost
+    * cursed
+    * hidden
+    * unspoken
+    * lonely
+    * foresaken
+    * dark
+    * feared
+    * tormented
+    * raging
+    * cruel
+    * mourning
+    * nameless
+    * dishonored
+    * deadly
+    * cold
+    * hopeless
+    * unholy
+    * savage
+    * crying
+    * burning
+    * doomed
+    * violent
+    * mad
+    * infernal
+    * twisted
+    * ruthless
+    * furious
+]
+
+DungeonName {
+  Noun @ $DungeonNameNoun
+  Adjective @ $DungeonNameAdjective
+  Title! = "{{capitalize(NamePrefix)}} of the {{ capitalize(Adjective)}} {{capitalize(Noun)}}"
+}
+
+CavernName (DungeonName) {
+  NamePrefix @ [
+    * caverns
+    * lair
+    * hideout
+  ]
+  | DungeonName
+}
+
+
+TombName (DungeonName){
+  NamePrefix @ [
+    * tomb
+    * crypt
+  ]
+  | DungeonName
+}
+
+TempleName (DungeonName){
+  NamePrefix @ [
+    * temple
+    * shrine
+  ]
+  | DungeonName
+}
+

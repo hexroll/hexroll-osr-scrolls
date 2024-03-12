@@ -1,0 +1,214 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+
+HexExtension {
+  Prescript! ~ ""
+  Inscript! ~ ""
+  Postscript! ~ ""
+}
+
+Hex {
+  Weather! = :Region.Weather
+
+  RealmUUID = :Realm.uuid
+  RealmType = :Realm.RealmType
+  RealmName = :Realm.Name
+  Realm = *Realm.Title
+
+  RegionSuffix = :Region.Suffix
+  RegionName = :Region.NamePart
+  RegionUUID = :Region.uuid
+  Region! =  *Region.Name
+
+  coord_x = null
+  coord_y = null
+  coords = <{{coord_x}},{{coord_y}}>
+  Coords! = <{{coord_x}}{{coord_y}}>
+  Version = 1
+
+  [0..0 Residency!] @ Residency {
+    HexLink := &uuid
+  }
+
+  [0..0 Dungeon!] @ Dungeon {
+    Hex := &class
+    HexUUID = &uuid
+    HexLink := &uuid
+  }
+
+  [0..0 Settlement!] @ Settlement {
+    HexLink := &uuid
+  }
+
+  [0..0 Inn!] @ Inn {
+    HexLink := &uuid
+  }
+
+  [0..0 Encounter!] @ Encounter {
+    HexLink := &uuid
+    Monster := *Monster
+  }
+
+  [0..0 Feature!] @ Feature {
+    HexLink := &uuid
+    FeatureMonster = *Monster
+  }
+
+  QuestObject! @@ [
+        * Plant
+        * Shard
+  ]~{
+    HexUUID = &uuid
+    Region = &Region
+  }
+
+  MapRef = ""
+  Thumb = ""
+
+  Breadcrumbs ~ <%
+    <span class="breadcrumbs">
+      {{sandbox_breadcrumb()}}
+      {{toc_breadcrumb()}}
+      <a href="{{sandbox()}}/realm/{{RealmUUID}}"> {{Realm}} </a> >
+      <a href="{{sandbox()}}/region/{{RegionUUID}}"> {{Region}} </a> >
+      Hex {{coords(uuid)}} </span>
+   %>
+
+  Header! ~ <%
+    {%if length(Dungeon)==1%}
+    {{Dungeon.0.Header}}
+    {%else if Residency %}
+    {{Residency.0.Header}}
+    {%else if length(Settlement)==1%}
+    {{Settlement.0.Header}}
+    {%else if length(Inn)==1%}
+    {{Inn.0.Name.Full}}
+    {%else if length(Encounter)==1%}
+    {{Encounter.0.EncounterName}}
+    {%else if length(Feature)==1%}
+    {{Feature.0.Name}}
+    {%else%}
+    Clear Hex
+    {%endif%}
+  %>
+
+  Extension @ HexExtension {
+    ExtensionTypeClass := &ExtensionTypeClass
+  }
+
+  Details! ~ <%
+    {{Extension.Prescript}}
+
+    <p>
+    {{Terrain.Supplemental}}
+    </p>
+
+    {%if QuestObject.Findable%}{{QuestObject.HexDescription}}{%endif%}
+
+    {%if Dungeon%}
+      {{reroller(Dungeon.0)}}
+      The <strong><a href="{{sandbox}}/location/{{Dungeon.0.uuid}}">{{Dungeon.0.Header}}</a></strong> is hidden
+      {%if Terrain.Hideout%}{{Terrain.Hideout}}{%endif%} somewhere {{Terrain.Location}}.
+      <h5> Entrances </h5>
+      {{Dungeon.0.Entrances}}
+
+    {%else if Residency%}
+      <p>
+      {{reroller(Residency.0)}}
+      {{Residency.0.Description}} {{Residency.0.Connector}} {{Terrain.Location}}.
+      {{Residency.0.Details}}
+      {%if Residency.0.Encounter == "Yes"%}
+        <ul><li>
+          There's a 2 in 6 chance (daily) of encountering
+          {%if first(RandomEncounters.OtherEncounters).NumberAppearingLair >1%}{{first(RandomEncounters.OtherEncounters).TitlePluralizedByLair}}
+          {%else%}{{articlize(first(RandomEncounters.OtherEncounters).TitlePluralizedByLair)}}{%endif%} here.
+
+             <hr/>
+
+             {{first(RandomEncounters.OtherEncounters).Stats}}
+        </li></ul>
+      {%endif%}
+      </p>
+
+    {%else if Settlement%}
+      The {{reroller_with_reload(Settlement.0.uuid, Settlement.0.class)}} {{Settlement.0.Prefix}}
+      <a href="{{sandbox()}}/location/{{Settlement.0.uuid}}"><strong>{{Settlement.0.Header}}</strong></a>
+      {{Settlement.0.Connector}} {{Terrain.Location}}.
+      {{Settlement.0.Supplemental}}
+
+    {%else if Inn%}
+      <a href="{{sandbox()}}/location/{{Inn.0.uuid}}"><strong>{{Inn.0.Name.Full}}</strong></a>
+      is welcoming travellers and adventurers {{Terrain.Location}}.
+
+    {%else if Encounter%}
+      <p>
+      {%if exists("Version")%}{{reroller(Monster)}}{%endif%}
+      {{Encounter.0.EncounterDesc}} {{Terrain.Location}}.
+      </p>
+      {{Encounter.0.EncounterProbability}}
+      {{Encounter.0.EncounterSupplemental}}
+
+    {%else if Feature%}
+      <p>
+      {{reroller(Feature.0)}}
+      {{Feature.0.Description}} {{Terrain.Location}}.
+      {{Extension.Inscript}}
+      {%if Feature.0.Supplemental%}{{Feature.0.Supplemental}}{%endif%}
+      </p>
+      {%if not existsIn(Feature.0,"HideRandomEncounters") or not Feature.0.HideRandomEncounters%}
+      <h5> {{reroller(RandomEncounters)}} Random encounter </h5>
+      <p> There's a <strong>1 in 6</strong> chance when exploring (or <strong>2 in 6</strong> chance
+          if camping overnight) to be ambushed or preyed upon by: </p>
+      {%set counter.value=1%}
+      <table class='condensed'>
+      <tr> <th> 1d4 </th> <th> Encounter </th> <th> Stats </th> </tr>
+      {%for e in RandomEncounters.OtherEncounters %}
+      <tr> <td> {{counter.value}} </td>
+           <td> {{e.TitlePluralizedByLair}} </td>
+           <td> {{e.Stats}} </td>
+      </tr>
+      {%set counter.value = counter.value+1%}
+      {%endfor%}
+      </table>
+      {%endif%}
+
+    {%else%}
+      <div class="inactive-quest">
+      <p> This hex is clear. You can populate it by rolling one of the following: </p>
+      <ul>
+      <li> {{appender(uuid, "Feature", "Feature")}} Feature </li>
+      <li> {{appender(uuid, "Settlement", "Settlement")}} Settlement </li>
+      <li> {{appender(uuid, "Dungeon", "Dungeon")}} Dungeon </li>
+      <li> {{appender(uuid, "Residency", "Residency")}} Dwelling </li>
+      <li> {{appender(uuid, "Encounter", "Encounter")}} Encounter </li>
+      </ul>
+      (<strong>Unlock</strong> the page and press the <strong>plus sign</strong>)
+      </div>
+    {%endif%}
+    {% if exists("Weather") %}
+      <p>
+      <h5> {{reroller_ex(Weather.Weather.uuid, Weather.Weather.Parent)}} Regional Weather </h5>
+      {{Weather.Weather.Description}}
+      </p>
+    {% endif %}
+    {{Extension.Postscript}}
+  %>
+  <metadata%
+  %metadata>
+
+  <header%
+    <div hidden id="doc-title"> Hex {{coords(uuid)}} in {{Region}} ({{Realm}}) </div>
+    <h4 id="title">
+    <span id="editable-title" data-attr="Header">{{Header}}</span>
+    {{Breadcrumbs}}
+  </h4>
+  %header>
+
+  <body%
+    {{Details}}
+  %body>
+}
+

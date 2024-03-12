@@ -1,0 +1,42 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+DungeonEncounterAberrations(DungeonEncounter) {
+  | DungeonEncounter
+  Foreshadow!  = <%
+    A successful listening roll could detect the <strong>sounds</strong>
+    that the <strong>{{Monster.TitlePluralizedByRoaming}}</strong>
+    {%if Monster.NumberAppearingRoaming>1%}are{%else%}is{%endif%}
+    making inside this area
+  %>
+  Hint! @ [
+    * Red eyes are glowing inside like fire, and you hear a
+      {%if existsIn(Monster,"Sound")%} {{Monster.Sound}}{%else%}growl{%endif%}
+    * Looking down, you realize you just stepped into a pool of blood
+    * You feel the warm stench of a monster’s breath
+    * There’s something moving inside
+    * There’s movement inside
+    * You feel chills curling up your spine
+    ]
+}
+
+DungeonEncounterAberrationsTier1(DungeonEncounterAberrations) {
+  Monster! @ MonstersAberrationTier1
+  | DungeonEncounterAberrations
+}
+
+DungeonEncounterAberrationsTier2(DungeonEncounterAberrations) {
+  Monster! @ MonstersAberrationTier2
+  | DungeonEncounterAberrations
+}
+
+
+DungeonEncounterAberrationsTier3(DungeonEncounterAberrations) {
+  Monster! @ MonstersAberrationTier3
+  | DungeonEncounterAberrations
+  Rumor @ DungeonMonsterRumor {
+    DungeonMonster = &Monster
+  }
+}

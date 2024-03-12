@@ -1,0 +1,89 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+MilitiaName(FactionName) {
+  Name_Prefix @ [
+    * fists
+    * swords
+    * spears
+    * arrows
+    * hammers
+    * army
+    * defenders
+
+  ]
+
+  Name_Suffix @ [
+    * of hope
+    * of justice
+    * of power
+    * of honor
+    * of victory
+    * of valor
+    * of fire
+    * of revival
+  ]
+  | FactionName
+}
+
+Militia (Faction) {
+
+  FactionName! @ MilitiaName
+
+  AcceptedAlignment @ [
+    * Chaotic
+    * Neutral
+  ]
+
+  Race @ [
+    * humans
+    * elves
+    * gnolls
+    * kobolds
+  ]
+
+  Verb @ [
+    * conspiring to
+    * plotting to
+  ]
+
+  Purpose @ [
+    * overthrow the ruler of the realm
+    * abolish all magic-users
+    * eliminate all cultists
+  ]
+
+  Tavern ? Tavern {
+    FactionName = *FactionName
+    FactionUUID = &uuid
+    Faction = <%
+        <a href="{{sandbox()}}/faction/{{FactionUUID}}">{{FactionName.Full}}</a>
+        are using this place as a meeting place from time to time.
+    %>
+  }
+
+  Leader @ MilitiaLeader {
+    HostingEntity := &uuid
+    Alignment = Neutral
+  }
+
+  Brief! ~ <%
+    <p>
+    {{FactionName.Full}}
+    {{lower(class)}} are {{Verb}} {{Purpose}}.
+    </p>
+    {% if exists("Tavern") %}
+    <p>
+    The {{lower(class)}}’s usual gathering venue is
+    <a href="{{Tavern.Link}}"><strong>{{Tavern.Name.Full}}</strong></a>
+    {%if Tavern.SettlementName%}in <strong>{{title(Tavern.SettlementName)}}</strong>{%else%}
+    {%endif%}
+    </p>
+    {%endif%}
+  %>
+
+  Coords! ~ <{%if exists("Tavern")%}{{Tavern.Coords}}{%endif%}>
+  | Faction
+}

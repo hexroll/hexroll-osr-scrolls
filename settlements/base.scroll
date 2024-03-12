@@ -1,0 +1,146 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+Populated {
+  <entity-will-roll%
+    if not has_global("SettlementListPool") then
+      local pool = {}
+      local root = root()
+      for i=1,len(root.realms) do
+        local realm_sets = scope_collection(root.realms[i],"Settlement")
+        for j=1,len(realm_sets) do
+          local set = load(realm_sets[j])
+          insert(pool, set.NamePart)
+        end
+      end
+      local duplicate = true
+      local new_name = "Temp"
+      while duplicate do
+        new_name = random_item(global_list("TownName"))
+        local found = false
+        for i=1,len(pool) do
+          if pool[i] == new_name then
+            found = true
+            break
+          end
+        end
+        if not found then
+          duplicate = false
+          insert(pool, new_name)
+          insert(pool, new_name)
+          insert(pool, new_name)
+          insert(pool, new_name)
+          insert(pool, new_name)
+        end
+      end
+
+      make_sublist("EnforcedSettlementList",{new_name})
+      make_sublist("SettlementListPool",pool)
+    end
+  %entity-will-roll>
+}
+
+SettlementLocation {
+  SettlementName? = *Settlement.NamePart
+  SettlementClass? = :Settlement.class
+  SettlementUUID? = :Settlement.uuid
+
+  RealmUUID? = :Realm.uuid
+  RealmType? = :Realm.RealmType
+  RealmName? = :Realm.Name
+  Realm? = <% {{RealmName.Title}} %>
+
+  DistrictUUID? = :District.uuid
+  DistrictTitleNoun? = :District.TitleNoun
+  DistrictTitleSuffix? = :District.TitleSuffix
+  DistrictClass? = :District.class
+
+  Breadcrumbs? ~ <%
+    <span class="breadcrumbs">
+      {{sandbox_breadcrumb()}}
+      {{toc_breadcrumb()}}
+      <a href="{{sandbox()}}/realm/{{RealmUUID}}"> {{Realm}} </a> >
+      <a href="{{sandbox()}}/location/{{SettlementUUID}}">{{SettlementClass}} of {{SettlementName}}</a> >
+      {% if DistrictClass != "TownDistrict" and DistrictClass != "VillageDistrict" %}
+      <a href="{{sandbox()}}/location/{{DistrictUUID}}">{{DistrictTitleNoun}} {{DistrictTitleSuffix}}</a>
+      {% endif %}
+    </span>
+  %>
+}
+
+residency_classes = [
+    * House
+    * Stronghold
+]
+
+Residency(Populated) { ^ $residency_classes
+  NamePart = null
+  Connector! @ [
+    * is situated
+    * is located
+    * can be found
+  ]
+
+  Header! = "{{Resident.Name.First}}'s {{Type.Name}}"
+  Description! ~ <%
+    <a class="npc-anchor" name="{{Resident.uuid}}"></a>
+    The {{Prefix}} {{Type.Name}} of <strong>{{Resident.Name.Full}}</strong>
+    %>
+  Encounter! = "No"
+}
+
+settlement_classes = [
+  *(x3) Village
+  *(x2) Town
+  *(x2) City
+]
+
+IndexedSettlementEntity(IndexedEntity) {
+    Name! = *Settlement.NamePart
+    Class! = ""
+}
+
+Settlement(Populated) {
+  ^ $settlement_classes
+
+  NamePart! @ $EnforcedSettlementList
+  Name! =  "{{capitalize(class)}} of {{title(NamePart)}}"
+
+  Header! = <%
+    {{capitalize(class)}} of {{title(NamePart)}}
+  %>
+
+  Realm! = *Realm.Title
+
+  $IndexRef @ IndexedSettlementEntity {
+    Link = &HexLink
+    Realm = "xx"
+    Details = "{{Realm}}"
+    Type = "hex"
+    Class = &class
+    Self = true
+    Value = "{{Class}} of {{Name}}"
+    Icon = "house"
+  }
+
+  Region! =  *Region.Name
+
+  RealmUUID = :Realm.uuid
+
+  Breadcrumbs? ~ <%
+    <span class="breadcrumbs">
+      {{sandbox_breadcrumb()}}
+      {{toc_breadcrumb()}}
+      <a href="{{sandbox()}}/realm/{{RealmUUID}}"> {{Realm}} </a>
+    </span>
+  %>
+
+  $TocEntry @ TocEntry {
+    Type = Settlement
+    Title = &NamePart
+    Class = &class
+    UUID = &uuid
+  }
+}

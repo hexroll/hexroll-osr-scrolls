@@ -1,0 +1,107 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+CultName(FactionName) {
+  Name_Prefix @ [
+    * dark
+    * defiled
+    * white
+    * black
+    * burning
+    * flaming
+    * desecrated
+    * foul
+    * corrupt
+    * sacred
+  ]
+
+  Name_Suffix @ [
+    * horrors
+    * sun
+    * followers
+    * truthseekers
+    * saviors
+    * scrolls
+    * saints
+    * bones
+    * lambs
+    * wolves
+    * servants
+    * seekers
+    * prophets
+  ]
+  | FactionName
+}
+
+Cult (Faction) {
+  FactionName! @ CultName
+
+  AcceptedAlignment = Chaotic
+
+  Race @ [
+    * humans
+    * elves
+    * gnolls
+    * kobolds
+  ]
+
+  Verb = secretly
+
+  Purpose @ [
+    * conducting horrid experiments in humanoids
+    * sacrificing humans
+    * attempting demon summoning rituals
+  ]
+
+  Leader @ CultLeader {
+    HostingEntity := &uuid
+    Alignment = Chaotic
+  }
+
+  Lair ? FactionLair {
+    FactionName = *FactionName
+    FactionLeader = *Leader
+    FactionUUID = &uuid
+    Faction = <%
+        <a href="{{sandbox()}}/faction/{{FactionUUID}}"><strong>{{FactionName.Full}}</strong></a>
+        are using this dungeon, and there's a 2 in 6 chance to find
+        <a href="{{sandbox()}}/faction/{{FactionUUID}}/npc/{{FactionLeader.uuid}}"><strong>{{FactionLeader.Name.Full}}</strong></a>
+        together with {{FactionLeader.Gender.PronounPossessive}} acolytes or mediums here.
+    %>
+  }
+
+  LairRumor @ RealmRumor {
+    FactionName := *FactionName
+    FactionUUID := &uuid
+    FactionLair := *Lair
+    Details = <%
+        {% if exists("FactionLair") %}
+        <a href="{{sandbox()}}/faction/{{FactionUUID}}"><strong>{{FactionName.Full}}</strong></a>
+        are using the
+        <a href="{{sandbox()}}/location/{{FactionLair.DungeonUUID}}"><strong>{{FactionLair.Name.Title}}</strong></a>
+        as their hideout.
+        {% else %}
+        <a href="{{sandbox()}}/faction/{{FactionUUID}}"><strong>{{FactionName.Full}}</strong></a>
+        are looking for a hideout.
+        {% endif %}
+    %>
+  }
+
+  Brief! ~ <%
+    <p>
+    <strong>{{FactionName.Full}}</strong>
+    {{lower(class)}} are {{Purpose}}.
+    </p>
+    <p>
+    {% if exists("Lair") %}
+    The {{lower(class)}} hideout is the {{Lair.Name.Title}}.
+    {% endif %}
+    </p>
+  %>
+
+  Coords! ~ <%{% if exists("Lair") %} {{Lair.Coords}} {%endif%}%>
+  | Faction
+}
+

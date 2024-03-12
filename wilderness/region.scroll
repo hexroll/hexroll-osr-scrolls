@@ -1,0 +1,338 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+region_classes = [
+    *(x6) MountainsRegion
+    *(x6) ForestRegion
+    *(x6) DesertRegion
+    *(x6) PlainsRegion
+    *(x6) JungleRegion
+    *(x6) TundraRegion
+    *(x6) SwampsRegion
+]
+
+EvilName {
+  Prefix @ [
+    * Ba
+    * Be
+    * Za
+    * Ze
+    * Ka
+    * Ke
+    * Go
+    * Ga
+    * Ge
+  ]
+
+  Infix @ [
+    * zu
+    * za
+    * uf
+    * uz
+  ]
+
+  Suffix @ [
+    * ul
+    * ar
+    * a
+    * u
+    * ux
+    * av
+    * ax
+  ]
+
+  Full! @ [
+    * {{Prefix}}'{{Infix}}{{Suffix}}
+    * {{Prefix}}{{Infix}}{{Suffix}}
+  ]
+
+}
+
+OnceA {
+  DemonGodName @ EvilName
+
+  OncePrefix @ [
+    * a throne for
+    * a gateway to
+    * the passage to
+    * the pathway to
+    * the lands of
+    * the forge of
+    * the residence of
+    * the grouds of
+    * the prison of
+    * a prison of
+    * the birthplace of
+    * a refuge for
+    * the realm of
+    * the expanse of
+    * the fortress of
+    * the battlegrounds of
+    * the domain of
+  ]
+
+  OnceSuffix @ [
+    * the dark lord
+    * the notorious red lich
+    * {{DemonGodName.Full}} the vile
+    * {{DemonGodName.Full}} the dark
+    * dark evil
+    * dark horror
+    * the vile crimson princess
+    * the demons of oblivion
+    * the demons
+    * the king of demons
+    * the demon-queen
+    * the king witch
+    * the blood-lusting emperor
+    * the blood-lusting emperess
+    * the unspoken terror
+  ]
+
+  Something! ~ <% {{OncePrefix}} {{OnceSuffix}} %>
+}
+
+RegionDescriptor {
+  Suffix = :Region.Suffix
+  Dwelled! @ [
+    * {{pluralcond(Suffix,"inhabit","inhabits")}} a few residents now
+    * {{pluralcond(Suffix,"are","is")}} now home for a few inhabitants
+    * {{pluralcond(Suffix,"are","is")}} inhabited by a few dwellers now
+    * now {{pluralcond(Suffix,"provide","provides")}} a safehaven for some
+    * now {{pluralcond(Suffix,"provide","provides")}} refuge for some
+    * now {{pluralcond(Suffix,"provide","provides")}} shelter for some
+  ]
+
+  Monsters! @ [
+    * the hunting grounds of vile monsters
+    * hiding unspeakable terrors
+  ]
+
+  Dungeons! @ [
+    * dark secrets still await
+    * unspeakable terrors still lurk
+    * hidden dangers still await
+    * immense dangers still face
+    * horrifying discoveries still await
+  ]
+
+  DungeonSuffix! @ [
+    * those who dare uncover them
+    * those who travel here
+    * those who venture into here
+    * those who are brave enough to explore the area
+  ]
+
+  Inn! @ [
+    * can provide a place of refuge
+    * can provide a shelter for the night
+    * a safe place to stay the night
+  ]
+
+  Caution! @ [
+    * caution is always advised
+    * some hazards still reside here
+    * adventurers must still take caution
+    * explorers should still be alert
+  ]
+
+  Uncharted! @ [
+    * unpopulated and dangerous
+    * unpopulated and savage
+    * unpopulated and hazardous
+    * unpopulated and treacherous
+    * unpopulated and mysterious
+    * barren and dangerous
+    * barren and savage
+    * barren and hazardous
+    * barren and treacherous
+    * barren and mysterious
+  ]
+
+  Charted! @ [
+    * well travelled
+    * mostly explored
+    * partially explored
+    * frequently travelled
+    * frequently explored
+  ]
+
+  UnchartedDiscoveries! @ [
+    * dark secrets and glorious treasure
+    * great dangers and great riches
+  ]
+
+  Lore! @ OnceA
+}
+
+  RegionTocEntry(TocEntry) {
+    Title! = *Region.Name
+  }
+
+RegionExtension {
+  Prescript! ~ ""
+  Inscript! ~ ""
+  Postscript! ~ ""
+}
+
+Region { ^ $region_classes
+  Prefix @ RegionName
+
+  Name! ` "{{Prefix.Value}} {{Suffix}}"
+  Weather? = null
+  Hexmap? = null
+
+  $TocEntry @ RegionTocEntry {
+    Type = Region
+    UUID = &uuid
+  }
+
+  RealmUUID = :Realm.uuid
+  RealmName = *Realm.Title
+  Breadcrumbs? ~ <%
+    <span class="breadcrumbs">
+      {{sandbox_breadcrumb()}}
+      {{toc_breadcrumb()}}
+      <a href="{{sandbox()}}/realm/{{RealmUUID}}"> {{RealmName}} </a>
+    </span>
+  %>
+
+  Descriptor @ RegionDescriptor
+
+  Extension @ RegionExtension
+  Description? ~ <%
+    {% set dungeons = 0 %}
+    {% set settlements = 0 %}
+    {% set dwellings = 0 %}
+    {% set inns = 0 %}
+    {%for h in Hexmap%}
+      {%if length(h.Dungeon)==1%}
+      {% set dungeons = dungeons + 1 %}
+      {%else if h.Residency %}
+      {% set dwellings = dwellings + 1 %}
+      {%else if length(h.Settlement)==1%}
+      {% set settlements = settlements + 1 %}
+      {%else if length(h.Inn)==1%}
+      {% set inns = inns + 1 %}
+      {%else%}
+      {%endif%}
+    {%endfor%}
+
+    {{Extension.Prescript}}
+    <p>
+    {{reroller(Descriptor)}} Once {{Descriptor.Lore.Something}},
+    {% if dungeons > 0 and settlements > 0 and inns > 0 %}
+      {{pluralcond(Suffix, "these", "this")}} {{decap(Suffix)}} {{pluralcond(Suffix,"have","has")}}
+      {{pluralize(settlements, "settlement")}} and {{Descriptor.Inn}} now, but {{Descriptor.Dungeons}} {{Descriptor.DungeonSuffix}}.
+    {% else if dungeons > 0 and settlements > 0 %}
+      {{pluralcond(Suffix, "these", "this")}} {{decap(Suffix)}}
+      {{pluralcond(Suffix,"have","has")}} {{pluralize(settlements, "settlement")}} now,
+      but {{Descriptor.Dungeons}} {{Descriptor.DungeonSuffix}}.
+    {% else if dungeons > 0 and dwellings > 0 %}
+      {{pluralcond(Suffix, "these", "this")}} {{decap(Suffix)}} {{Descriptor.Dwelled}},
+      but {{Descriptor.Dungeons}} {{Descriptor.DungeonSuffix}}.
+    {% else if dungeons > 0 %}
+      {{pluralcond(Suffix, "these", "this")}} {{Descriptor.Uncharted}} {{decap(Suffix)}}
+      {{pluralcond(Suffix, "hide", "hides")}}
+      {{Descriptor.UnchartedDiscoveries}} for those who are brave enough.
+    {% else if settlements > 0 and inns > 0%}
+      {{pluralcond(Suffix, "these", "this")}} {{decap(Suffix)}} now
+      {{pluralcond(Suffix,"have","has")}} {{pluralize(settlements, "settlement")}},
+      {{pluralcond(Suffix,"are","is")}} {{Descriptor.Charted}}, and {{Descriptor.Inn}}, but {{Descriptor.Caution}}.
+    {% else if settlements > 0 %}
+      {{pluralcond(Suffix, "these", "this")}} {{decap(Suffix)}}
+      {{pluralcond(Suffix,"have","has")}} {{pluralize(settlements, "settlement")}} now
+      and {{pluralcond(Suffix,"are","is")}} {{Descriptor.Charted}}, but {{Descriptor.Caution}}.
+    {% else if dwellings > 0 %}
+      {{pluralcond(Suffix, "these", "this")}} {{decap(Suffix)}} {{Descriptor.Dwelled}}
+      and {{pluralcond(Suffix,"are","is")}} {{Descriptor.Charted}}, but {{Descriptor.Caution}}.
+    {% else %}
+      {{pluralcond(Suffix, "these", "this")}} {{decap(Suffix)}} {{pluralcond(Suffix,"are","is")}} {{Descriptor.Uncharted}}.
+    {% endif %}
+
+    </p>
+
+    {% if settlements == 0 and dungeons == 0 and inns == 0 and dwellings == 0 %}
+    {% else %}
+    <h5> Notable Locations </h5>
+    <ul>
+    {%for h in Hexmap%}
+      {%if length(h.Settlement)==1%}
+      <li>
+      <a href="{{sandbox()}}/location/{{h.Settlement.0.uuid}}">{{h.Settlement.0.Header}}</a>
+      </li>
+      {%endif%}
+    {%endfor%}
+    {%for h in Hexmap%}
+      {%if length(h.Inn)==1%}
+      <li>
+      <a href="{{sandbox()}}/location/{{h.Inn.0.uuid}}">{{h.Inn.0.Name.Full}}</a>
+      </li>
+      {%endif%}
+    {%endfor%}
+    {%for h in Hexmap%}
+      {%if h.Residency %}
+      <li>
+      <a href="{{sandbox()}}/location/{{h.uuid}}">{{h.Residency.0.Header}}</a>
+      </li>
+      {%endif%}
+    {%endfor%}
+    {%for h in Hexmap%}
+      {%if length(h.Dungeon)==1%}
+      <li>
+      <a href="{{sandbox()}}/location/{{h.Dungeon.0.uuid}}">{{h.Dungeon.0.Header}}</a>
+      </li>
+      {%endif%}
+    {%endfor%}
+    </ul>
+    {% endif %}
+    {{Extension.Inscript}}
+    <h5> Regional Weather </h5>
+    {{Weather.Weather.Description}}
+    {{Extension.Postscript}}
+  %>
+
+  <metadata%
+    <a class="map-coords" region="{{uuid}}"> </a>
+  %metadata>
+
+  <header%
+  <h4 id="title">
+  <span id="editable-title" data-attr="Name" data-map-label="true">{{Name}}</span>
+  {{Breadcrumbs}}
+  </h4>
+  %header>
+
+  <body%
+    {{Description}}
+  %body>
+
+  <entity-did-reroll%
+  remap()
+  %entity-did-reroll>
+  <entity-did-roll%
+      if not has_global("GENERATING_REALM") then
+      for k2,h in ipairs(self.Hexmap) do
+          local hex = load(h)
+          append(hex.uuid, "Feature", "Feature")
+      end
+      end
+  %entity-did-roll>
+}
+
+minimum_tiles_per_mountains_region = 12
+maximum_tiles_per_mountains_region = 32
+minimum_tiles_per_forest_region = 12
+maximum_tiles_per_forest_region = 32
+minimum_tiles_per_desert_region = 12
+maximum_tiles_per_desert_region = 32
+minimum_tiles_per_plains_region = 12
+maximum_tiles_per_plains_region = 32
+minimum_tiles_per_jungle_region = 12
+maximum_tiles_per_jungle_region = 32
+minimum_tiles_per_swamps_region = 12
+maximum_tiles_per_swamps_region = 32
+minimum_tiles_per_tundra_region = 12
+maximum_tiles_per_tundra_region = 32

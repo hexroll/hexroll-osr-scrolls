@@ -1,0 +1,39 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+DungeonPortalDestination {
+  AreaUUID! = none
+  Portal = none
+  Origin = none
+  OriginUUID = none
+  RoomNumber = :AreaDescription.RoomNumber
+  Location! = <{{RoomNumber}}>
+  Active! = false
+}
+
+DungeonPortal {
+  Title = <magical portal>
+  Portal @ [
+      * <strong>painting of a door</strong> on the wall
+      * stained old <strong>full-size mirror</strong> on the wall
+      * stone-carved <strong>demon face</strong> on the wall with a large gaping mouth
+    ]
+  Destination ? DungeonPortalDestination {
+        Portal = &Portal
+        Origin = &Origin
+        OriginUUID = &OriginUUID
+        Active = <%
+            {{capitalize(articlize(Portal))}} is a magical portal.
+            Anyone stepping into the portal will be magically teleported into
+            <a href="{{sandbox()}}/location/{{OriginUUID}}"><strong>area {{Origin}}</strong></a>
+        %>
+  }
+  Description! = <%
+    {{capitalize(articlize(Portal))}} is a magical portal.
+    Anyone stepping into the portal will be magically teleported
+    into <a href="{{sandbox()}}/location/{{Destination.AreaUUID}}"><strong>area {{Destination.Location}}</strong></a>
+    %>
+}
+

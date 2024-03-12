@@ -1,0 +1,29 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+DungeonEncounterCaveSpecific (DungeonEncounter) {
+  | DungeonEncounter
+  Foreshadow!  @ [
+    * It is impossible to hear anything inside
+    * You hear echoing droplets of water
+    ]
+
+  Hint! @ [
+    * You feel as if you're being watched
+    * A strange sensation is creeping up your spine
+    * Something here makes the hair at the back of the neck stand
+  ]
+}
+
+DungeonEncounterCaveSpecificTier1 (DungeonEncounterCaveSpecific) {
+  Monster! @ MonsterCavernsTier1
+  | DungeonEncounterCaveSpecific
+}
+
+DungeonEncounterCaveSpecificTier2 (DungeonEncounterCaveSpecific) {
+  Monster! @ MonsterCavernsTier2
+  | DungeonEncounterCaveSpecific
+}
+

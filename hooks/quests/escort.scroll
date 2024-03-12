@@ -1,0 +1,30 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+EscortQuest {
+  Destination % Hex
+
+  Frequency @ [
+    * Once a season
+    * Twice a season
+    * Twice a year
+  ]
+
+  ShopOwner = :Shop.Owner
+  QuestMission = :Shop.HexQuestMission
+
+  Description! ~ <%
+    {{Frequency}}, {{ShopOwner.Name.First}} will want to <strong>{{QuestMission}}</strong> in
+    <a href="{{sandbox()}}/hex/{{Destination.uuid}}"><strong>{{Destination.Region}}</strong> (hex {{coords(Destination.uuid)}})</a>
+    and will look for someone to protect {{ShopOwner.Gender.PronounObject}} throughout the
+    journey.
+  %>
+
+  Reward @ [
+    * 500
+    * 600
+    * 700
+  ]
+}

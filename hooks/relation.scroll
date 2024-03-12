@@ -1,0 +1,52 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+Relation(Quest) {
+  Related % Character
+
+  OwnerUUID = :Character.uuid
+  OwnerName = :Character.Name
+  OwnerGender = :Character.Gender
+
+  WhatLimited @ [
+    * some <strong> business</strong> with
+    * a severe <strong>dispute</strong> with
+    * a <strong>grudge</strong> against
+    * <strong>bad blood</strong> with
+    * a <strong>vendetta</strong> against
+    * a <strong>special interest</strong> in
+  ]
+
+  WhatFull @ [
+    * some <strong> business</strong> with
+    * a severe <strong>dispute</strong> with
+    * a <strong>grudge</strong> against
+    * <strong>bad blood</strong> with
+    * a <strong>vendetta</strong> against
+    * a <strong>special interest</strong> in
+    * <strong>feelings</strong> for
+    * fallen <strong>in love</strong> with
+    * an <strong>affair</strong> with
+  ]
+
+  SameSex @ 1d10
+
+  Description! ~ <%
+    {%if exists("Related") and existsIn(Related, "uuid")%}
+    {%if Related.uuid!=OwnerUUID%}
+    {{OwnerName.First}} {{OwnerGender.Possession}}
+    {%if OwnerGender.class == Related.Gender.class and SameSex > 8 %}
+    {{WhatFull}}
+    {%else if OwnerGender.class != Related.Gender.class%}
+    {{WhatFull}}
+    {%else%}
+    {{WhatLimited}}
+    {%endif%}
+    <a href="{{sandbox()}}{{Related.URLExt}}">
+    <strong>{{Related.Name.Full}}</strong></a>.
+    {%endif%}
+    {%endif%}
+  %>
+}

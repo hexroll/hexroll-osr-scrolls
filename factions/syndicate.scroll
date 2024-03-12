@@ -1,0 +1,91 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+SyndicateName(FactionName) {
+
+  Name_Prefix @ [
+    * dark
+    * red
+    * black
+    * white
+    * avenging
+    * rough
+    * silent
+  ]
+
+  Name_Suffix @ [
+    * blades
+    * shadows
+    * cloaks
+    * daggers
+    * snakes
+    * spiders
+    * ghosts
+    * wyverns
+    * wolves
+    * masks
+    * hyaenas
+  ]
+  | FactionName
+}
+
+Syndicate (Faction) {
+
+  FactionName! @ SyndicateName
+
+  AcceptedAlignment @ [
+    * Chaotic
+  ]
+
+  Race @ [
+    * humans
+    * elves
+    * gnolls
+    * kobolds
+  ]
+
+  Verb @ [
+    * conspiring to
+    * plotting to
+  ]
+
+  Purpose @ [
+    * assassinate the ruler of the realm
+    * abduct and smuggle people to slave traders
+    * collect protection money for an unknown purpose
+  ]
+
+  Tavern ? Tavern {
+    FactionName = *FactionName
+    FactionUUID = &uuid
+    Faction = <%
+        <a href="{{sandbox()}}/faction/{{FactionUUID}}">{{FactionName.Full}}</a>
+        are using this place as their secret meeting place from time to time.
+    %>
+  }
+
+  Leader @ SyndicateLeader {
+    HostingEntity := &uuid
+    Alignment = Neutral
+  }
+
+  Brief! ~ <%
+    <p>
+    {{FactionName.Full}}
+    {{lower(class)}} are {{Verb}} {{Purpose}}.
+    </p>
+    {% if exists("Tavern") %}
+    <p>
+    The {{lower(class)}}’s usual gathering venue is
+    <a href="{{Tavern.Link}}"><strong>{{Tavern.Name.Full}}</strong></a>
+    {%if Tavern.SettlementName%}in <strong>{{title(Tavern.SettlementName)}}</strong>{%else%}
+    {%endif%}
+    </p>
+    {%endif%}
+  %>
+
+  Coords! ~ <{%if exists("Tavern")%}{{Tavern.Coords}}{%endif%}>
+  | Faction
+}

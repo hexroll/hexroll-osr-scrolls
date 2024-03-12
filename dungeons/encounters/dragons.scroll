@@ -1,0 +1,21 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+DungeonEncounterDragonsTier3(DungeonEncounterMagical) {
+  Monster! @ MonstersDragonsTier3
+  | DungeonEncounterMagical
+  Rumor @ DungeonMonsterRumor {
+    DungeonMonster = &Monster
+  }
+}
+
+DungeonEncounterDragonsTier4(DungeonEncounterMagical) {
+  Monster! @ MonstersDragonsTier4
+  | DungeonEncounterMagical
+  Rumor @ DungeonMonsterRumor {
+    DungeonMonster = &Monster
+  }
+}
+

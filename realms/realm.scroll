@@ -1,0 +1,496 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+realm_type = [
+  * RealmTypeKingdom
+  * RealmTypeLands
+  * RealmTypeEmpire
+  * RealmTypeDuchy
+]
+
+RealmType {
+  ^ $realm_type
+}
+
+RealmTypeKingdom {
+  Ruler! @ Monarch
+  Title! = Kingdom
+}
+
+RealmTypeEmpire {
+  Ruler! @@ [
+    * Bishop
+    * Necromancer
+    * Warexpert
+  ]
+  Title! = Empire
+}
+
+RealmTypeLands {
+  Ruler! @@ [
+    * Bishop
+    * Necromancer
+    * Warexpert
+  ]
+  Title! = Lands
+}
+
+RealmTypeDuchy {
+  Ruler! @ NoblePerson
+  Title! = Duchy
+}
+
+RealmTypeIsland {
+  Ruler! = none
+  Title! = Island
+}
+
+
+UnruledRealm(Realm){
+  Extension @ RealmExtension
+  Name @ RealmName
+  RealmType! @ RealmTypeIsland
+  | Realm
+
+  Background! @ [
+    * A peculiar plague is ravaging the isle. Some say it is a curse
+      from the gods while others blame the wrongdoing of a faction.
+    * A mysterious object fireballed down from the sky during a stormy
+      night. Those who witnessed the spectacle are fearful or take
+      advantage of the fearful.
+  ]
+
+  Description! ~ <%
+    <p>
+    <blockquote>{{Background}}</blockquote>
+    </p>
+  %>
+
+  <entity-will-roll%
+    set_global("GENERATING_REALM")
+    if has_global("GENERATING_REALM") then
+    end
+  %entity-will-roll>
+  <entity-did-roll%
+    del_global("GENERATING_REALM")
+    function is_hex_clear(hex)
+        return (len(hex.Settlement) == 0
+            and len(hex.Dungeon) == 0
+            and len(hex.Inn) == 0
+            and len(hex.Encounter) == 0
+            and len(hex.Residency) ==0)
+    end
+
+    function is_hex_trail(hex)
+      return hex.is_trail
+    end
+
+    function n_hexes()
+      local count = 0
+      for k1,r in ipairs(self.regions) do
+        local region = load(r)
+        count = count + #region.Hexmap
+      end
+      return count
+    end
+
+    function generate_feature(attr, type, n_gens, extra)
+      local attempts = 0
+      local gens = 0
+      while (gens < n_gens and attempts < 1000) do
+        attempts = attempts + 1
+        local region = load_random(self.regions)
+        local hex = load_random(region.Hexmap)
+        if (is_hex_clear(hex)) then
+           if (extra == nil or extra(hex)) then
+             print("Generated " .. type)
+             append(hex.uuid, attr, type)
+             gens = gens + 1
+             local test = load(hex.uuid)
+           end
+         end
+      end
+    end
+
+    print("generating scripted entities")
+    local existing_settlement_names = {}
+    local root = root()
+    for i=1,len(root.realms) do
+      local realm_sets = scope_collection(root.realms[i],"Settlement")
+      for j=1,len(realm_sets) do
+        local set = load(realm_sets[j])
+        insert(existing_settlement_names, set.NamePart)
+      end
+    end
+
+    local n_sets = rand(global("minimum_number_of_settlements"), global("maximum_number_of_settlements"))
+    local name_pool = {}
+    if n_sets > 0 then
+      name_pool = subset(subtract(global_list("TownName"),existing_settlement_names), n_sets)
+      make_sublist("SettlementListPool",name_pool)
+    end
+
+    if len(name_pool) == 0 then
+      make_sublist("NpcNameClasses",{"FirstAndLastName"})
+    else
+      make_sublist("NpcNameClasses",{"FirstAndLastName","FirstAndOriginName"})
+    end
+
+    local weighted_dungeon_classes = {}
+    for i=1,global("tombs_probability") do insert(weighted_dungeon_classes, "Tomb") end
+    for i=1,global("temples_probability") do insert(weighted_dungeon_classes, "Temple") end
+    for i=1,global("caves_probability") do insert(weighted_dungeon_classes, "Cavern") end
+
+    for i=1,rand(global("minimum_number_of_dungeons"), global("maximum_number_of_dungeons")) do
+      if #weighted_dungeon_classes > 0 then
+        local cls = random_item(weighted_dungeon_classes)
+        print("Generating " .. cls)
+        generate_feature("Dungeon",cls, 1)
+      end
+    end
+
+    local weighted_dwelling_classes = {}
+    for i=1,global("house_probability") do insert(weighted_dwelling_classes, "House") end
+    for i=1,global("stronghold_probability") do insert(weighted_dwelling_classes, "Stronghold") end
+    for i=1,rand(global("minimum_number_of_dwellings"), global("maximum_number_of_dwellings")) do
+      if #weighted_dwelling_classes > 0 then
+        local cls = random_item(weighted_dwelling_classes)
+        print("Generating " .. cls)
+        generate_feature("Residency",cls, 1)
+      end
+    end
+
+    local weighted_settlement_classes = {}
+    for i=1,global("cities_probability") do insert(weighted_settlement_classes, "City") end
+    for i=1,global("towns_probability") do insert(weighted_settlement_classes, "Town") end
+    for i=1,global("villages_probability") do insert(weighted_settlement_classes, "Village") end
+
+    for i=1,n_sets do
+      if #weighted_settlement_classes > 0 then
+        make_sublist("EnforcedSettlementList",{name_pool[i]})
+        local cls = random_item(weighted_settlement_classes)
+        print("Generating " .. cls)
+        generate_feature("Settlement",cls, 1)
+      end
+    end
+
+    for i=1,rand(global("minimum_number_of_inns"), global("maximum_number_of_inns")) do
+      local cls = "Inn"
+      print("Generating " .. cls)
+      generate_feature("Inn",cls, 1)
+    end
+
+    local total_hexes = n_hexes()
+    generate_feature("Encounter","Encounter", rand(total_hexes / 10, total_hexes / 4))
+
+    for k1,r in ipairs(self.regions) do
+      local region = load(r)
+      print("Appending: "..region.uuid)
+      for k2,h in ipairs(region.Hexmap) do
+          local hex = load(h)
+          if (is_hex_clear(hex)) then
+            append(hex.uuid, "Feature", "Feature")
+          end
+      end
+    end
+
+    print("Generating encounters")
+    set(self, "$map_data", "")
+
+  %entity-did-roll>
+
+}
+
+
+RuledRealm (Realm){
+  Extension @ RealmExtension
+  Name @ RealmName
+  RealmType! @ RealmType
+  | Realm
+
+  [0..0 factions!] @ Faction
+
+  Background! @ [
+    * The danger of an imminent invasion keeps the people of these lands in
+      constant fear. But is it real, or is it just fear-mongering conducted by
+      an evil faction?
+
+    * Brutal wars shaped the lands of {{Name.Title}} for ages, but peace was
+      finally restored. There are however those who seek to bring {{Name.Title}} back
+      into darkness.
+
+    * A tyrannical {{RealmType.Ruler.Title}} rules these lands with a heavy hand.
+      Will heroes rise up to help the people with their quest for freedom?
+
+    * A prophecy tells of a young child who will bring a new age
+      of prosperity to {{Name.Title}}, but some find this possibility undesirable
+      and are secretly working to undermine it.
+
+    * A peculiar plague is ravaging the land. Some say it is a curse
+      from the gods while others blame the wrongdoing of a faction.
+
+    * The seemingly childless {{RealmType.Ruler.Title}} {{RealmType.Ruler.NPC.Name.First}}
+      is on {{RealmType.Ruler.NPC.Gender.PronounPossessive}} deathbed.
+      A rumor of a legal heir raised as a commoner somewhere in
+      the {{decap(RealmType.Title)}} brings hope to most, but is a threat to some.
+
+    * {{capitalize(RealmType.Ruler.Title)}} {{RealmType.Ruler.NPC.Name.First}} fell under the charm of a
+      stranger from afar, whose true intentions could be anyone's guess.
+
+    * A mysterious object fireballed down from the sky during a stormy
+      night, emitting a shock-wave of fears and rumors all around the realm.
+
+    * After receiving a mysterious message, {{RealmType.Ruler.Title}} {{RealmType.Ruler.NPC.Name.First}}
+      fell into a numbing depression. {{capitalize(RealmType.Ruler.NPC.Gender.PronounObject)}} court is now in quarrel,
+      and the {{decap(RealmType.Title)}} is on the verge of chaos.
+
+    * Twelve years ago, {{RealmType.Ruler.Title }} {{RealmType.Ruler.NPC.Name.First}}'s
+      new born child was cursed. An evil sorcerer destined the child to never
+      reach thirteen years of age. This day is now near.
+
+    * {{capitalize(Name.Title)}} is in blissful equilibrium. {{capitalize(RealmType.Ruler.Title)}} {{RealmType.Ruler.NPC.Name.First}}'s
+      and {{RealmType.Ruler.NPC.Gender.PronounPossessive}} loyal forces keep any evil at bay and away.
+      But a greater, more sinister darkness is approaching from far far away.
+
+    * {{capitalize(RealmType.Ruler.Title)}} {{RealmType.Ruler.NPC.Name.First}} is a beloved ruler,
+      admired for {{RealmType.Ruler.NPC.Gender.PronounPossessive}} wise and thoughtful reign.
+      Is there anyone in the {{decap(RealmType.Title)}} who knows {{RealmType.Ruler.NPC.Gender.PronounPossessive}}
+      very dark secret?
+  ]
+
+  RulerTitle! = <{{RealmType.Ruler.Title}} {{RealmType.Ruler.NPC.Name.Full}}>
+  Castle! @ CastleLocation {
+    RealmType := *RealmType
+  }
+
+  RulerEntourage! ~ <%
+    {%if RealmType.Ruler.HasChiefCommander%}
+    <a class="npc-anchor" id="{{RealmType.Ruler.EntourageChiefCommand.uuid}}"></a>
+    <p>
+    Commanding the realm's forces is
+    {{RealmType.Ruler.EntourageChiefCommand.Description}}
+
+    {{RealmType.Ruler.EntourageChiefCommand.Stats}}
+    </p>
+    <hr/>
+    {%endif%}
+    {%if RealmType.Ruler.HasClergy%}
+    <a class="npc-anchor" id="{{RealmType.Ruler.EntourageClergy.uuid}}"></a>
+    <p>
+      Heading the temple is {{RealmType.Ruler.EntourageClergy.Description}}
+
+    {{RealmType.Ruler.EntourageClergy.Stats}}
+    </p>
+    <hr/>
+    {%endif%}
+    {%if RealmType.Ruler.HasSage%}
+    <a class="npc-anchor" id="{{RealmType.Ruler.EntourageSage.uuid}}"></a>
+    <p>
+    {{RealmType.Ruler.NPC.Name.First}}'s sage is {{RealmType.Ruler.EntourageSage.Description}}
+
+    {{RealmType.Ruler.EntourageSage.Stats}}
+    </p>
+    <hr/>
+    {%endif%}
+    {%if RealmType.Ruler.HasConfidant%}
+    <a class="npc-anchor" id="{{RealmType.Ruler.EntourageConfidant.uuid}}"></a>
+    <p>
+    {{RealmType.Ruler.NPC.Name.First}}'s confidant is
+    {{RealmType.Ruler.EntourageConfidant.Description}}
+
+    {{RealmType.Ruler.EntourageConfidant.Stats}}
+    </p>
+    {%endif%}
+  %>
+
+  Description! ~ <%
+  {%if RealmType.Ruler %}
+    <p>
+    <blockquote>{{Background}}</blockquote>
+    </p>
+
+    <!--Population: sum(attribute_list(Settlements, "Population"))-->
+
+    <a class="npc-anchor" id="{{RealmType.Ruler.NPC.uuid}}"></a>
+    <h5> {{RealmType.Ruler.Title}} {{RealmType.Ruler.NPC.Name.Full}} </h5>
+
+    {{Name.Title}} is ruled by {{RealmType.Ruler.Title}} {{RealmType.Ruler.NPC.Description}}
+
+    <hr/>
+    {{RealmType.Ruler.NPC.Stats}}
+    <hr/>
+
+    {% if exists("Castle") and length(Castle.castles) > 0 %}
+    <p>
+    {{reroller(Castle)}}
+    {{RealmType.Ruler.Title}} {{RealmType.Ruler.NPC.Name.First}} preferred place of residence
+    is the {{Castle.Details}}
+    </p>
+    {% endif %}
+
+    <h5> {{RealmType.Ruler.Title}} {{RealmType.Ruler.NPC.Name.Full}}'s entourage </h5>
+
+    {{RulerEntourage}}
+
+  {%endif%}
+
+    <h5> {{appender(uuid, "factions", "Faction")}}Factions </h5>
+    <ul>
+    {% for f in factions %}
+    <li>
+    {{f.LinkedTitle}} ({{f.class}})
+    </li>
+    {% endfor %}
+    </ul>
+
+  %>
+  <entity-will-roll%
+    set_global("GENERATING_REALM")
+    if has_global("GENERATING_REALM") then
+    end
+  %entity-will-roll>
+  <entity-did-roll%
+    del_global("GENERATING_REALM")
+    function is_hex_clear(hex)
+        return (len(hex.Settlement) == 0
+            and len(hex.Dungeon) == 0
+            and len(hex.Inn) == 0
+            and len(hex.Encounter) == 0
+            and len(hex.Residency) ==0)
+    end
+
+    function is_hex_trail(hex)
+      return hex.is_trail
+    end
+
+    function n_hexes()
+      local count = 0
+      for k1,r in ipairs(self.regions) do
+        local region = load(r)
+        count = count + #region.Hexmap
+      end
+      return count
+    end
+
+    function generate_feature(attr, type, n_gens, extra)
+      local attempts = 0
+      local gens = 0
+      while (gens < n_gens and attempts < 1000) do
+        attempts = attempts + 1
+        local region = load_random(self.regions)
+        local hex = load_random(region.Hexmap)
+        if (is_hex_clear(hex)) then
+           if (extra == nil or extra(hex)) then
+             print("Generated " .. type)
+             append(hex.uuid, attr, type)
+             gens = gens + 1
+             local test = load(hex.uuid)
+           end
+         end
+      end
+    end
+
+    print("generating scripted entities")
+    local existing_settlement_names = {}
+    local root = root()
+    for i=1,len(root.realms) do
+      local realm_sets = scope_collection(root.realms[i],"Settlement")
+      for j=1,len(realm_sets) do
+        local set = load(realm_sets[j])
+        insert(existing_settlement_names, set.NamePart)
+      end
+    end
+
+    local n_sets = rand(global("minimum_number_of_settlements"), global("maximum_number_of_settlements"))
+    local name_pool = {}
+    if n_sets > 0 then
+      name_pool = subset(subtract(global_list("TownName"),existing_settlement_names), n_sets)
+      make_sublist("SettlementListPool",name_pool)
+    end
+
+    if len(name_pool) == 0 then
+      make_sublist("NpcNameClasses",{"FirstAndLastName"})
+    else
+      make_sublist("NpcNameClasses",{"FirstAndLastName","FirstAndOriginName"})
+    end
+
+    local weighted_dungeon_classes = {}
+    for i=1,global("tombs_probability") do insert(weighted_dungeon_classes, "Tomb") end
+    for i=1,global("temples_probability") do insert(weighted_dungeon_classes, "Temple") end
+    for i=1,global("caves_probability") do insert(weighted_dungeon_classes, "Cavern") end
+
+    for i=1,rand(global("minimum_number_of_dungeons"), global("maximum_number_of_dungeons")) do
+      if #weighted_dungeon_classes > 0 then
+        local cls = random_item(weighted_dungeon_classes)
+        print("Generating " .. cls)
+        generate_feature("Dungeon",cls, 1)
+      end
+    end
+
+    local weighted_dwelling_classes = {}
+    for i=1,global("house_probability") do insert(weighted_dwelling_classes, "House") end
+    for i=1,global("stronghold_probability") do insert(weighted_dwelling_classes, "Stronghold") end
+    for i=1,rand(global("minimum_number_of_dwellings"), global("maximum_number_of_dwellings")) do
+      if #weighted_dwelling_classes > 0 then
+        local cls = random_item(weighted_dwelling_classes)
+        print("Generating " .. cls)
+        generate_feature("Residency",cls, 1)
+      end
+    end
+
+    local weighted_settlement_classes = {}
+    for i=1,global("cities_probability") do insert(weighted_settlement_classes, "City") end
+    for i=1,global("towns_probability") do insert(weighted_settlement_classes, "Town") end
+    for i=1,global("villages_probability") do insert(weighted_settlement_classes, "Village") end
+
+    for i=1,n_sets do
+      if #weighted_settlement_classes > 0 then
+        make_sublist("EnforcedSettlementList",{name_pool[i]})
+        local cls = random_item(weighted_settlement_classes)
+        print("Generating " .. cls)
+        generate_feature("Settlement",cls, 1)
+      end
+    end
+
+    for i=1,rand(global("minimum_number_of_inns"), global("maximum_number_of_inns")) do
+      local cls = "Inn"
+      print("Generating " .. cls)
+      generate_feature("Inn",cls, 1)
+    end
+
+    local total_hexes = n_hexes()
+    generate_feature("Encounter","Encounter", rand(total_hexes / 10, total_hexes / 4))
+
+    for k1,r in ipairs(self.regions) do
+      local region = load(r)
+      print("Appending: "..region.uuid)
+      for k2,h in ipairs(region.Hexmap) do
+          local hex = load(h)
+          if (is_hex_clear(hex)) then
+            append(hex.uuid, "Feature", "Feature")
+          end
+      end
+    end
+
+    local weighted_faction_classes = {}
+    for i=1,global("cults_probability") do insert(weighted_faction_classes, "Cult") end
+    for i=1,global("militias_probability") do insert(weighted_faction_classes, "Militia") end
+    for i=1,global("syndicates_probability") do insert(weighted_faction_classes, "Syndicate") end
+
+    for i=1,rand(global("minimum_number_of_factions"), global("maximum_number_of_factions")) do
+      if #weighted_faction_classes > 0 then
+        local cls = random_item(weighted_faction_classes)
+        print("Generating " .. cls)
+        append(self.uuid, "factions", cls)
+      end
+    end
+    print("Generating encounters")
+    set(self, "$map_data", "")
+
+    reroll(self.Castle[1])
+
+  %entity-did-roll>
+
+}

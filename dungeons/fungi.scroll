@@ -1,0 +1,38 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+DungeonFungi {
+  Foreshadow! = none
+  Hint! @ [
+    * Faint colorful light is emitting from everywhere
+    * There’s also a colorful glow emitting from the ground
+  ]
+
+  Quantity @ [
+    * a few
+    * a few dozen of
+    * countless
+    ]
+
+  Effect @ [
+      * might be severely <strong>poisoned</strong> (<strong>1d4 of damage</strong> until a successful saving throw per turn)
+      *(x3) will be <strong>paralyzed</strong> with mind twisting hallucinations for <strong>1d6 turns</strong>
+      *(x4) will suffer a severe stomach ache and a <strong>-2 penalty</strong> to attack rolls for <strong>1d6 turns</strong>
+    ]
+
+  PotionEffect @ RandomPotion
+
+  Description! @ [
+    * {{capitalize(Quantity)}} green and purple bioluminescent mushrooms are
+      growing from cracks in the ground. Anyone consuming them {{Effect}}
+    * There are {{Quantity}} colorful bioluminescent mushrooms growing from
+      cracks in the ground. Anyone consuming these {{Effect}}
+    * {{capitalize(Quantity)}} blue, red and yellow bioluminescent mushrooms
+      are growing from cracks in the ground. Anyone consuming them {{Effect}}
+    * There are {{Quantity}} colorful bioluminescent mushrooms growing from
+      cracks in the ground. Anyone consuming these will gain the same
+      effect as if they consumed {{articlize(PotionEffect.Description)}}
+      ]
+}

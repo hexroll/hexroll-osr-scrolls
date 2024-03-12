@@ -1,0 +1,82 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+Hut {
+  Name! = Hut
+  Motivation! @ [
+    * hiding here as a fugitive
+    * living in solitude here
+  ]
+}
+
+Cottage {
+  Name! = Cottage
+  Motivation! @ [
+    * finding refuge from the world
+    * seeking solitude from others
+    * spending retirement here
+    * looking for some peace and quiet
+  ]
+}
+
+Farmhouse {
+  Name! = Farmhouse
+  Motivation! @ [
+    * trying to sustain independently here
+    * growing a unique specie of smoking-pipe leaves
+  ]
+}
+
+House (Residency){
+  Prefix @ [
+    * aging
+    * well-maintained
+    * decorated
+    * barricaded
+  ]
+  Encounter = "Yes"
+  Type! @@ [
+    * Hut
+    * Cottage
+    * Farmhouse
+  ]
+
+  Population = 1
+
+  HexLink = :Hex.uuid
+  HexRegion = :Hex.Region
+  Resident! @@ [
+    * Character
+  ]~{
+    HostingEntity := &HexLink
+    URLExt = "/location/{{HostingEntity}}"
+    SettlementName = &HexRegion
+  }
+
+  Quest @ [
+    * Feeling someone or something is lurking around the {{Type.Name}}
+    * Hearing strange noises at night and fearing someone or something will raid the {{Type.Name}}
+  ]
+
+  Details! =<%
+    <ul><li>
+    {{Resident.Name.First}} {{Resident.Gender.BeVerb}} {{Type.Motivation}}.
+
+    {{capitalize(Resident.Gender.PronounSubject)}} {{Resident.Gender.Possession}} {{Resident.Appearance}}
+    (<em>{{Resident.State}}</em>). {{Resident.InThePocket.Details}}
+
+    <ul>
+    {%if exists("Resident.Association")%}{{Resident.Association}}{%endif%}
+    {%if exists("Resident.Story2")%}{{Resident.Story2.Description}}{%endif%}
+    <li>
+      {{Quest}}.
+    </li>
+    </ul>
+    </li>
+    </ul>
+    %>
+  | Residency
+}
+

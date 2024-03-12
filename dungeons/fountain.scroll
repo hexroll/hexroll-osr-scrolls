@@ -1,0 +1,19 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+DungeonFountain {
+  Title = fountain
+  Liquid @ [
+    * clear water are
+    * dark liquid is
+    ]
+  Outlet @ [
+    * a hole in the wall
+    * a stone statue of a fish
+    ]
+  Description! =  <%
+    {{capitalize(Liquid)}} coming out of {{Outlet}} here
+    %>
+}

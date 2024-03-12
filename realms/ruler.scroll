@@ -1,0 +1,166 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+CastleLocation {
+  # RulerTitlex = <{{RealmType.Ruler.Title}} {{RealmType.Ruler.NPC.Name.Full}}>
+  RulerTitle= "Asd"
+  [1..1 castles!] % Castle {
+    Used = true
+    RealmType = &RealmType
+  }
+  Details! ~ <%
+    {% if exists("castles") %}
+    {{castles.Title}}
+    {%endif %}
+  %>
+}
+
+Ruler { ^ [ * Noble
+            * Bishop
+            * Monarch
+            * Warexpert
+            * Necromancer ]
+
+  RealmUUID = :Realm.uuid
+
+  EntourageChiefCommand! @ EntourageChiefCommander {
+    HostingEntity := &RealmUUID
+    URLExt = "/realm/{{HostingEntity}}/npc/{{uuid}}"
+    Profession = "entourage chief"
+  }
+
+  EntourageClergy! @ EntourageCleric {
+    HostingEntity := &RealmUUID
+    URLExt = "/realm/{{HostingEntity}}/npc/{{uuid}}"
+    Profession = "entourage cleric"
+  }
+
+
+  EntourageSage! @ EntourageSage {
+    HostingEntity := &RealmUUID
+    URLExt = "/realm/{{HostingEntity}}/npc/{{uuid}}"
+    Profession = "entourage sage"
+  }
+
+  EntourageConfidant! @ EntourageConfidant {
+    HostingEntity := &RealmUUID
+    URLExt = "/realm/{{HostingEntity}}/npc/{{uuid}}"
+    Profession = "entourage confidant"
+  }
+
+}
+
+NoblePerson (Ruler){
+    | Ruler
+    Weapon! @ RulerSword
+    NPC! @ NobleRuler {
+      Weapon = &Weapon
+      HostingEntity := &RealmUUID
+      URLExt = "/realm/{{HostingEntity}}/npc/{{uuid}}"
+    }
+    HasChiefCommander! = true
+    HasClergy! = true
+    HasSage! = true
+    HasConfidant! = true
+    Title! = <%
+        {%if NPC.Gender.class=="Male"%}
+        duke
+        {%else if NPC.Gender.class=="Female"%}
+        duchess
+        {%else%}
+        duches
+        {%endif%} %>
+}
+
+Bishop (Ruler){
+    | Ruler
+  Title! = bishop
+  Weapon! @ RulerWarhammer
+  NPC! @ BishopRuler {
+    Weapon = &Weapon
+    HostingEntity := &RealmUUID
+    URLExt = "/realm/{{HostingEntity}}/npc/{{uuid}}"
+  }
+  HasChiefCommander! = true
+  HasClergy! = false
+  HasSage! = true
+  HasConfidant! = true
+}
+
+RulerSword (ArmorWeapon) {
+  Title! = Sword + 3
+  Damage! = 1d8+3
+}
+
+RulerWarhammer (ArmorWeapon){
+  Title! = Warhammer + 3
+  Damage! = 1d6+3
+}
+
+RulerStaff (ArmorWeapon) {
+  Title! = Staff of Wizardry
+  Damage! = see item description
+}
+
+Monarch (Ruler){
+    | Ruler
+  Weapon! @ RulerSword
+  NPC! @ MonarchRuler {
+    Weapon = &Weapon
+    HostingEntity := &RealmUUID
+    URLExt = "/realm/{{HostingEntity}}/npc/{{uuid}}"
+  }
+  HasChiefCommander! = true
+  HasClergy! = true
+  HasSage! = true
+  HasConfidant! = true
+  Title! = <
+    {%if NPC.Gender.class=="Male"%}
+    king
+    {%else if NPC.Gender.class=="Female"%}
+    queen
+    {%else%}
+    monarch
+    {%endif%}
+    >
+}
+
+Warexpert (Ruler){
+    | Ruler
+  Weapon! @ RulerSword
+  NPC! @ WarexpertRuler {
+    Weapon = &Weapon
+    HostingEntity := &RealmUUID
+    URLExt = "/realm/{{HostingEntity}}/npc/{{uuid}}"
+  }
+  HasChiefCommander! = false
+  HasClergy! = true
+  HasSage! = true
+  HasConfidant! = true
+  Title! = <
+    {%if NPC.Gender.class=="Male"%}
+    warlord
+    {%else if NPC.Gender.class=="Female"%}
+    warlady
+    {%else%}
+    Warexpert
+    {%endif%} >
+}
+
+Necromancer (Ruler){
+    | Ruler
+  Title! = necromancer
+  Weapon! @ RulerStaff
+  NPC! @ NecromancerRuler {
+    Weapon = &Weapon
+    HostingEntity := &RealmUUID
+    URLExt = "/realm/{{HostingEntity}}/npc/{{uuid}}"
+  }
+  HasChiefCommander! = true
+  HasClergy! = true
+  HasSage! = false
+  HasConfidant! = true
+}
+

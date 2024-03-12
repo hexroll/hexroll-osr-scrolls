@@ -1,0 +1,23 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+Folk(Character) {
+  | Character
+  PersonalQuest! @ Quest
+  OwnerTitle! = ""
+  ShopTitle! = ""
+  ServiceTitle = ""
+  Profession! = none
+  $IndexRef @ IndexedEntity {
+    Render = "Name"
+    Details = "The {{lower(OwnerTitle)}} from {{capitalize(SettlementName)}}"
+    Anchor = &uuid
+    Link = &HostingEntity
+    Type = "location"
+    Full = ""
+    Search = "{{Full}}"
+    Icon = "user"
+  }
+}

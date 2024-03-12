@@ -1,0 +1,74 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+RealmName {
+
+  Prefix @ [
+    * Ca
+    * Al
+    * El
+    * Va
+    * Vo
+    * Ne
+    * Jo
+  ]
+
+  Infix @ [
+    *
+    * saf
+    * dar
+    * der
+    * nar
+    * sil
+    * v
+    * r
+  ]
+
+  Suffix @ [
+    * a
+    * ia
+    * ana
+    * iana
+    * 'il
+  ]
+
+  Prefix2 @ [
+    * A
+    * E
+    * O
+    * I
+    * U
+  ]
+
+  Infix2 @ [
+    * ra
+    * ze
+    * re
+    * sha
+  ]
+
+  Suffix2 @ [
+    * zar
+    * zor
+    * bar
+    * bor
+    * nar
+    * nor
+    * dar
+    * dor
+  ]
+
+  Name @ [
+    * {{Prefix}}{{Infix}}{{Suffix}}
+    * {{Prefix2}}{{Infix2}}{{Suffix2}}
+  ]
+
+  Title! ` "{{Name}}"
+
+  <entity-did-roll%
+    make_sublist("SettlementListPool",{self.Title})
+  %entity-did-roll>
+}
+

@@ -1,0 +1,22 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+Feature { ^ [
+    *(x9) Bridge
+    *(x9) Watchtower
+    *(x9) DeadAdventurers
+    *(x9) Wagons
+    *(x9) AbandonedVillage
+    *(x9) Altar
+    *(x9) SacrificialSite
+    *(x9) SignalingTower
+    *(x9) DeadMonster
+    *(x6) Graveyard
+    *(x3) Arena
+    *(x5) CaravanCamp
+    *(x1) Artifact
+    *(x1) Portal
+    ]
+}

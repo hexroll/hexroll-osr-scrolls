@@ -1,0 +1,152 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+TownDistrict(District) {
+  Title = Town District
+  CostFactor = 1.0
+  << Advert
+  << LocalRumor
+  [12..34 shops!] @ TownShops
+  | District
+}
+
+Town(Settlement) {
+  | Settlement
+
+  Title! = "town of {{title(NamePart)}}"
+
+  Prefix! = ""
+
+  PopulationMultiplier! @ 2d4+1
+  Connector! @ [
+    * stands secure on high grounds
+    * sits behind a wall
+  ]
+
+  Castle @ Castle
+  District? @ TownDistrict
+  Population? = "{{int(District.Population) * PopulationMultiplier}}"
+  GAlignment @ [
+    *(x5) Lawful
+    *(x1) Neutral
+  ]
+  [2..3 Guards?] @ Guard {
+     Alignment = &GAlignment
+     HostingEntity := &uuid
+     Profession = "guard"
+     URLExt = "/location/{{HostingEntity}}/npc/{{uuid}}"
+  }
+
+  Overview? ~ <%
+    <p>
+      Population: {{Population}} townsfolk
+    </p>
+    {{Castle.Desc}}
+    <h5>Town Shops & Services</h5>
+    {{District.Index}}
+    {% if exists("Guards") %}
+    <h5>Guards</h5>
+    {% for g in Guards %}
+    <a class="npc-anchor" id="{{g.uuid}}"></a>
+    <p>
+    {{reroller(g)}} {{g.Description}}
+    {{g.Stats}}
+    {% if g.Association %}
+    <ul>
+    {{g.Association}}
+    </ul>
+    {% endif %}
+    <hr/>
+    </p>
+    {% endfor %}
+    {% endif %}
+  %>
+
+  Supplemental! = ""
+
+  Brief? = <%
+    {{Overview}}
+  %>
+
+  <metadata%
+    <a class="map-coords" hex="{{HexLink}}" x="0" y="0" zoom="4"> </a>
+  %metadata>
+
+  <header%
+    <div hidden id="doc-title"> {{capitalize(Title)}} from {{Realm}}</div>
+    <h4 id="title">
+    <span id="editable-title" data-attr="NamePart" data-map-label="true">{{NamePart}}</span>
+    {{Breadcrumbs}}
+    </h4>
+  %header>
+
+  <body%
+    {{Brief}}
+  %body>
+}
+
+TownShops {
+  ^ [
+    * Bakery
+    * GeneralGoods
+    * Bookstore
+    * Grocer
+    * PetShop
+    * Herbalist
+    * Jeweler
+    * Bunkhouse
+    * Carpenter
+    * Stables
+    * ArmorWeapons
+    * Hatter
+    * Butchery
+    * Clothing
+    * Blacksmith
+    * Barber
+    * Liquor
+    * Craft
+    * Music
+    * Salon
+    * Spice
+    * Bathhouse
+    * AnimalSupplies
+    * Brewery
+    * Distillery
+    * Flower
+    * Cobbler
+    * Tinkerer
+    * Weaver
+    * Veterinarian
+    * Brothel
+    *(x0) Bank
+    * GlassBlower
+    * Leatherworker
+    * Physician
+    * Barracks
+    * School
+    * Daycare
+    * Library
+    * Lawyer
+    * TinWorker
+    * FishMarket
+    * Tailor
+    * Prison
+    * PostOffice
+    * Mill
+    * Smokehouse
+    * GameShop
+    * Witch
+    * PrintingPress
+    * AnimalPound
+    * Mortician
+    * Tanner
+    * Registry
+    * TradePost
+    * VehicleMaker
+    * FortuneTeller
+    * Matchmaker
+ ]
+}
+

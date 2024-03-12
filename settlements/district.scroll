@@ -1,0 +1,160 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+Guard {
+  ^ [
+    * FighterLevel3
+    * FighterLevel4
+    * FighterLevel5
+    * FighterLevel6
+  ]
+}
+
+DistrictTavern(Tavern) {
+  x_coords = 0
+  y_coords = 0
+  Name! @@ [
+    *(x1) InnName
+    *(x2) TavernName
+  ]
+  LinkedName! ~ <%
+    <a href="{{sandbox}}/location/{{uuid}}">
+    <strong>{{Name.Type}}</strong> ({{Name.Full}})
+    </a>
+  %>
+  InvertedLinkedName! ~ <%
+    <a href="{{sandbox}}/location/{{uuid}}"><strong>{{Name.Full}}</strong></a>
+    ({{Name.Type}})
+  %>
+  [2..5 patrons] ? Folk {
+    TavernOfChoiceUUID = &uuid
+    TavernOfChoice = &Name
+  }
+
+  SettlementName! = *Settlement.NamePart
+  SettlementClass? = :Settlement.class
+  SettlementUUID? = :Settlement.uuid
+
+  TavernLocation! = "{{SettlementName}}"
+
+  | Tavern
+
+  RealmUUID? = :Realm.uuid
+  RealmType? = :Realm.RealmType
+  RealmName? = :Realm.Name
+  Realm? = <% {{RealmName.Title}} %>
+
+  DistrictUUID? = :District.uuid
+  DistrictTitleNoun? = :District.TitleNoun
+  DistrictTitleSuffix? = :District.TitleSuffix
+  DistrictClass? = :District.class
+
+  Breadcrumbs? ~ <%
+    <span class="breadcrumbs">
+      {{sandbox_breadcrumb()}}
+      {{toc_breadcrumb()}}
+      <a href="{{sandbox()}}/realm/{{RealmUUID}}"> {{Realm}} </a> >
+      <a href="{{sandbox()}}/location/{{SettlementUUID}}">{{SettlementClass}} of {{SettlementName}}</a> >
+      {% if DistrictClass != "TownDistrict" and DistrictClass != "VillageDistrict" %}
+      <a href="{{sandbox()}}/location/{{DistrictUUID}}">{{DistrictTitleNoun}} {{DistrictTitleSuffix}}</a>
+      {% endif %}
+    </span>
+  %>
+
+}
+
+District {
+  ^ [
+    * ResidentialDistrict
+    * PalaceDistrict
+    * TempleDistrict
+    * CraftingDistrict
+    * HarborDistrict
+    * MarketDistrict
+  ]
+  x_coords = 0
+  y_coords = 0
+
+  << Folk
+
+
+  PeoplePerShopOrService @ 7d4+10
+  Population! ~ "{{length(shops)*PeoplePerShopOrService}}"
+
+  Tavern! @ DistrictTavern
+
+  SettlementUUID = :Settlement.uuid
+  SettlementName = *Settlement.NamePart
+  SettlementClass = :Settlement.class
+  SettlementBreadcrumb = <% <a href="{{sandbox()}}/location/{{SettlementUUID}}">{{SettlementClass}} of {{SettlementName}}</a> %>
+
+  [0..0 Guards] @ Guard
+
+
+  LinkedName! = <%
+    <a href="{{sandbox()}}/district/{{uuid}}">{{Title}}</a>
+  %>
+
+  Index! ~ <%
+    <a href="{{sandbox()}}/location/{{Tavern.uuid}}">
+    <strong>{{Tavern.Name.Type}}</strong></a> ({{Tavern.Name.Full}}) &#9726;
+   {{join(attribute_list(shops,"InvertedName")," &#9726; ")}}
+  %>
+
+  Overview! ~ <%
+    <h5> Shops & Services </h5>
+
+    {{Index}}
+
+    {% if exists("Guards") %}
+    <h5>Guards</h5>
+
+    {% for g in Guards %}
+    <p>
+    {{reroller(g)}} {{g.Description}}
+    {{g.Stats}}
+    <hr/>
+    </p>
+    {% endfor %}
+    {% endif %}
+  %>
+
+  HexLink = :Settlement.HexLink
+
+  Coords! = <%
+    <data-map-coordinates class="map-coords" hex="{{HexLink}}" x="{{x_coords}}" y="{{y_coords}}" zoom="3"> </data-map-coordinates>
+  %>
+
+  RealmUUID = :Realm.uuid
+  RealmType = :Realm.RealmType
+  RealmName = :Realm.Name
+  Realm = <% {{RealmName.Title}} %>
+
+  Breadcrumbs! ~ <%
+    <span class="breadcrumbs">
+      {{sandbox_breadcrumb()}}
+      {{toc_breadcrumb()}}
+      <a href="{{sandbox()}}/realm/{{RealmUUID}}"> {{Realm}} </a> >
+      {{SettlementBreadcrumb}}
+    </span>
+  %>
+
+  <metadata%
+    {{Coords}}
+  %metadata>
+
+  <header%
+    <div hidden id="doc-title">{{Title}} (district) in {{capitalize(SettlementName)}}</div>
+    <h4 id="title">
+    <span id="editable-title" data-attr="Title">{{Title}}</span>
+    {{Breadcrumbs}}
+    </h4>
+  %header>
+
+  <body%
+    {{Overview}}
+  %body>
+
+}

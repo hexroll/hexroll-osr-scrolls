@@ -1,0 +1,92 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+TempleEncounterTier1 {
+  ^ [
+    *(x2) DungeonEncounterCultists
+    * DungeonEncounterTempleAnimals
+    ]
+}
+
+TempleEncounterTier2 {
+  ^ [
+    * DungeonEncounterMagicalTier2
+    * DungeonEncounterAberrationsTier2
+    ]
+}
+
+TempleEncounterTier3 {
+  ^ [
+    *(x4) DungeonEncounterMagicalTier3
+    *(x4) DungeonEncounterAberrationsTier3
+    * DungeonEncounterMimic
+    ]
+}
+
+TempleEncounterTier4 {
+  ^ [
+    *(x3) DungeonEncounterDragonsTier3
+    * DungeonEncounterDragonsTier4
+    ]
+}
+
+TempleFeatureTier1 {
+  ^ [
+    *(x3) TempleEncounterTier1
+    * DungeonTreasureTier1
+    * DungeonRemains
+    * DungeonPool
+    ]
+}
+
+TempleFeatureTier2 {
+  ^ [
+    *(x2) TempleEncounterTier2
+    * DungeonTreasureTier2
+    * DungeonRemains
+    * DungeonPool
+    ]
+}
+
+TempleFeatureTier3 {
+  ^ [
+    *(x2) TempleEncounterTier3
+    * DungeonTreasureTier3
+    * DungeonRemains
+    * DungeonPool
+    ]
+}
+
+TempleFeatureTier4 {
+  ^ [
+    *(x10) TempleEncounterTier4
+    * DungeonTreasureTier4
+    ]
+}
+
+Temple(Dungeon) {
+  Name! @ TempleName
+  HexLink! = :Hex.uuid
+  Coords! = <%
+    <a class="map-coords" hex="{{HexLink}}" x="0" y="0" zoom="7"> </a>
+  %>
+  FactionLair @ FactionLair {
+    DungeonUUID = &uuid
+    Name = *Name
+    HexLink = &HexLink
+    Coords = &Coords
+  }
+
+ | Dungeon
+
+  DungeonFeatureTier1 = TempleFeatureTier1
+  DungeonFeatureTier2 = TempleFeatureTier2
+  DungeonFeatureTier3 = TempleFeatureTier3
+  DungeonFeatureTier4 = TempleFeatureTier4
+
+  map @ DungeonMap
+
+  WanderingMonsters @ DungeonWanderingMonsters
+}

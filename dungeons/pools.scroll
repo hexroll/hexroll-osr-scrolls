@@ -1,0 +1,48 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+DungeonPool {
+  Foreshadow! = none
+
+  Hint! @ [
+    * There’s a large round pool in the middle of the floor
+    * There’s a large elevated oval pool on the floor
+    * There’s a large circular pool embedded in the center of the floor
+  ]
+
+  Effect @ [
+      * The liquid is a strong <strong>acid</strong>. When it comes in touch with human skin,
+        it will inflict <strong>1d4 of damage</strong> each round until it
+        is completely washed off.
+      * Anyone submerging into the pool will <strong>regain 1d6 per level</strong> of hitpoints.
+      * If the pool is disturbed, it will start <strong>overflowing</strong>, rapidly
+        <strong>flooding</strong> the area. If the doors are closed, it could drown
+        anyone here.
+      * When anything is submerged into the pool, the liquid inside will
+        <strong>solidify around it into stone</strong>. It will take either magic or incredible
+        external effort to break out.
+      * If anything dead is thrown into the pool, a demon (or any other referee
+        elected creature) will emerge from within.
+      * Gazing into the pool will <strong>reflect a demonic entity</strong> that will secretly
+        <strong>possess</strong> anyone looking at it. <strong>Save vs Spells</strong>
+        or secretly serve the demon's evil intentions until a </strong>Bless</strong>
+        or a similar spell is used.
+    ]
+
+  Liquid @ [
+    * dark, tar-colored liquid
+    * crystal clear liquid
+    * milky-white liquid
+    * blood-like liquid
+    * glowing-green liquid
+    * stinky yellowish liquid
+  ]
+
+  Description! @ [
+    * The pool contains {{Liquid}}. {{Effect}}
+    * The pool is filled with {{Liquid}}. {{Effect}}
+    * The pool has {{Liquid}} inside it. {{Effect}}
+  ]
+}

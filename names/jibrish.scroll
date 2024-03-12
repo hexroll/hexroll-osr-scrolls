@@ -1,0 +1,56 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+JibrishWord {
+  Part1 @ [
+    * ga
+    * ba
+    * ka
+    * za
+  ]
+  Part2 @ [
+    * ru
+    * du
+    * vu
+    * mu
+  ]
+  Part3 @ [
+    * xa
+    * sa
+    * ja
+  ]
+  Part4 @ [
+    * un
+    * il
+    * wa
+    * ju
+  ]
+  Part5 @ [
+    * ri
+    * xi
+    * bi
+    * ni
+  ]
+  Part6 @ [
+    * ge
+    * me
+    * te
+    * ye
+  ]
+  Part7 @ [
+    * ko
+    * po
+    * ao
+  ]
+  Text @ [
+    * !jinja "{{Part1}}{{Part2}}{{Part3}}"
+    * !jinja "{{Part2}}{{Part1}}{{Part3}}"
+    * !jinja "{{Part3}}{{Part2}}{{Part1}}"
+    * !jinja "{{Part1}}{{Part2}}{{Part3}} {{Part4}} {{Part5}}{{Part6}}{{Part7}}"
+    * !jinja "{{Part2}}{{Part1}}{{Part3}} {{Part4}} {{Part6}}{{Part7}}{{Part5}}"
+    * !jinja "{{Part3}}{{Part2}}{{Part1}} {{Part4}} {{Part7}}{{Part5}}{{Part6}}"
+  ]
+}
+

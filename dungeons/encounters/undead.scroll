@@ -1,0 +1,38 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+DungeonEncounterUndead(DungeonEncounter) {
+  Monster! @@ [
+    * MonsterUndeadTier1
+    * MonsterUndeadTier2
+  ]
+  | DungeonEncounter
+  Foreshadow! ~ < It is impossible to hear anything inside >
+
+  Hint! @ [
+    * You feel the chill of death curling up your spine
+    * Other than that, there's a silence of death in here
+    * Looking down, you realize you just stepped into a pool of blood
+    * A strange sensation is creeping up your spine
+    * Something here makes the hair at the back of the neck stand
+  ]
+}
+
+DungeonEncounterUndeadTier3(DungeonEncounterUndead) {
+  Monster! @ MonsterUndeadTier3
+  | DungeonEncounterUndead
+  Rumor @ DungeonMonsterRumor {
+    DungeonMonster = &Monster
+  }
+}
+
+DungeonEncounterUndeadTier4(DungeonEncounterUndead) {
+  Monster! @ MonsterUndeadTier4
+  | DungeonEncounterUndead
+  Rumor @ DungeonMonsterRumor {
+    DungeonMonster = &Monster
+  }
+}
+

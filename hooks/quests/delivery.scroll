@@ -1,0 +1,109 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+DeliveryQuestAdvert(Advert) {
+  QuestFolk = none
+  QuestLink = none
+  QuestDestination = none
+  | Advert
+}
+
+DeliveryQuestRumor(LocalRumor) {
+  QuestFolk = none
+  QuestLink = none
+  QuestObject = none
+  QuestDestination = none
+  | LocalRumor
+}
+
+DeliveryQuest(Quest) {
+
+  Destination % Character
+
+  Reward @ [
+    * 500
+    * 600
+    * 700
+  ]
+
+  PackagePrefix @ [
+    * sealed
+    * mysterious
+  ]
+
+  PackageObject @ [
+    * bottle
+    * box
+    * chest
+    * crate
+    * casket
+  ]
+
+  Package = <%
+    a {{PackagePrefix}} {{PackageObject}}
+  %>
+
+  Description! ~ <%
+    {% if exists("Destination") %}
+    Looking for someone to deliver {{Package}} to
+    <a href="{{sandbox()}}{{Destination.URLExt}}"><strong>{{Destination.Name.Full}}</strong></a>
+    {%if existsIn(Destination, "SettlementName") and Destination.SettlementName%}in
+    <strong>{{capitalize(Destination.SettlementName)}}</strong>.{%endif%}
+        <ul><li>
+        Reward is <strong>{{currency(Reward)}}</strong>
+        </li></ul>
+    {% endif %}
+  %>
+
+  Questgiver = :SettlementLocation.Owner
+
+  QuestgiverLocationUUID = :SettlementLocation.uuid
+
+  Advert @ DeliveryQuestAdvert {
+    QuestFolk = *Questgiver
+    QuestLink = &QuestgiverLocationUUID
+    QuestDestination = *Destination
+    Details @ [
+      * “<strong>Job offer!</strong> I have a package to deliver
+        {%if existsIn(QuestDestination, "SettlementName") and QuestDestination.SettlementName %}in
+        <strong>{{capitalize(QuestDestination.SettlementName)}}</strong>{%endif%}.
+        Payment guaranteed at destination upon delivery.
+        Yours,
+        <a href="{{sandbox}}/location/{{QuestLink}}">
+        <strong>{{QuestFolk.Name.Full}}</strong></a>”
+      * “<strong>Traveling{%if QuestDestination.SettlementName%} to
+        <strong>{{capitalize(QuestDestination.SettlementName)}}</strong>{%endif%}?
+        I will pay anyone carrying a package for me.
+        Yours,
+        <a href="{{sandbox}}/location/{{QuestLink}}">
+        <strong>{{QuestFolk.Name.Full}}</strong></a>”
+      * {%if existsIn(QuestDestination, "SettlementName") and QuestDestination.SettlementName%}
+        Heading to
+        <strong>{{capitalize(QuestDestination.SettlementName)}}?</strong>
+        {%else%}<strong>Heading away?</strong>{%endif%}
+        Payment guaranteed to a trusty courier. Ask for
+        <a href="{{sandbox}}/location/{{QuestLink}}">
+        <strong>{{QuestFolk.Name.Full}}</strong></a>”
+    ]
+  }
+
+  Rumor @ DeliveryQuestRumor {
+    QuestFolk = *Questgiver
+    QuestLink = &QuestgiverLocationUUID
+    QuestObject = &PackageObject
+    QuestDestination = *Destination
+    Details @ [
+      * <a href="{{sandbox()}}/location/{{QuestLink}}">
+        <strong>{{QuestFolk.Name.Full}}</strong></a>
+        is willing to pay well for a delivery job.
+      * <a href="{{sandbox()}}/location/{{QuestLink}}">
+        <strong>{{QuestFolk.Name.Full}}</strong></a>
+        {{QuestFolk.Gender.Possession}} a {{QuestObject}}
+        {{QuestFolk.Gender.PronounSubject}} would like delivered
+        {%if existsIn(QuestDestination, "SettlementName") and QuestDestination.SettlementName%}to
+        {{capitalize(QuestDestination.SettlementName)}}{%endif%}
+    ]
+  }
+}

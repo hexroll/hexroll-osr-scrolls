@@ -1,0 +1,40 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+DungeonEncounterOozes(DungeonEncounter) {
+  | DungeonEncounter
+  Foreshadow! ~ <%
+    There's a good chance players could sense the vile <strong>stench</strong> that the
+    <strong>{{Monster.TitlePluralizedByRoaming}}</strong> {%if
+    Monster.NumberAppearingRoaming>1%}are{%else%}is{%endif%} emitting from
+    inside this area
+    %>
+  Hint! @ [
+    * There’s a strong burning sensation when breathing the air here
+    * There’s also a very strong acidic stench here, making breathing almost
+      unbearable
+    * There are bones on the ground, clean bones.. almost bleach-white
+    * A strange sensation is creeping up your spine
+    ]
+}
+
+DungeonEncounterOozesTier1(DungeonEncounterOozes) {
+  Monster! @ MonstersOozeTier1
+  | DungeonEncounterOozes
+}
+
+DungeonEncounterOozesTier2(DungeonEncounterOozes) {
+  Monster! @ MonstersOozeTier2
+  | DungeonEncounterOozes
+}
+
+DungeonEncounterOozesTier3(DungeonEncounterOozes) {
+  Monster! @ MonstersOozeTier3
+  | DungeonEncounterOozes
+  Rumor @ DungeonMonsterRumor {
+    DungeonMonster = &Monster
+  }
+}
+

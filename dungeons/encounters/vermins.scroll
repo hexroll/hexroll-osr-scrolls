@@ -1,0 +1,38 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+DungeonEncounterVermins(DungeonEncounter) {
+  | DungeonEncounter
+  Foreshadow! ~ <%
+    A successful listening roll could detect the <strong>sounds</strong> that the
+    <strong>{{Monster.TitlePluralizedByRoaming}}</strong> {%if
+    Monster.NumberAppearingRoaming>1%}are{%else%}is{%endif%} making inside this
+    area %>
+  Hint! @ [
+    * There’s movement inside
+    * There’s also a foul smell of decay and rot
+    * Looking down, you see countless fragments of small animal skeletons
+    * Flies swarm off bones covered with rotting flesh on the ground
+    ]
+}
+
+DungeonEncounterVerminsTier1(DungeonEncounterVermins) {
+  Monster! @ MonstersVerminTier1
+  | DungeonEncounterVermins
+}
+
+DungeonEncounterVerminsTier2(DungeonEncounterVermins) {
+  Monster! @ MonstersVerminTier2
+  | DungeonEncounterVermins
+}
+
+DungeonEncounterVerminsTier3(DungeonEncounterVermins) {
+  Monster! @ MonstersVerminTier3
+  | DungeonEncounterVermins
+  Rumor @ DungeonMonsterRumor {
+    DungeonMonster = &Monster
+  }
+}
+

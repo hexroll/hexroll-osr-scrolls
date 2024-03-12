@@ -1,0 +1,61 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+AreaAppearance {
+  Cover @ [
+    * splatters of dark matter
+    * claw marks
+    * burn marks
+    * scorch marks
+    * cracks
+    * fractures
+    * spots of green rot
+    * spots of yellow ooze
+    ]
+
+  State @ [
+    * deeply fractured
+    * scorched with burn marks
+    * carved with claw marks
+    ]
+
+  Recency @ [
+    * old
+    * fresh
+    ]
+
+  Quantity @ [
+    * a few
+    * some
+    * several
+    ]
+  Description! @ [
+    * there are {{Quantity}} {{Cover}} on the {{Part}}
+    * the {{Part}} {{pluralcond(Part,"have","has")}} {{Quantity}} {{Cover}} on
+    * the {{Part}} {{pluralcond(Part,"are","is")}} covered with {{Cover}}
+    * the {{Part}} {{pluralcond(Part,"are","is")}} {{State}}
+    ]
+}
+
+DungeonAreaAppearance (AreaAppearance) {
+  Part @ [
+    * walls
+    * ground
+    * ceiling
+    ]
+  | AreaAppearance
+}
+
+
+CaveAreaAppearance (AreaAppearance) {
+  Part @ [
+    * stalagmites
+    * stalactites
+    * ground
+    * canopy
+    ]
+  | AreaAppearance
+}
+

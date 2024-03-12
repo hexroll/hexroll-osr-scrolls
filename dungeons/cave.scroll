@@ -1,0 +1,86 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+CaveEncounterTier1 {
+  ^ [
+    *(x2) DungeonEncounterHumanoidsTier1
+    * DungeonEncounterVerminsTier1
+    * DungeonEncounterOozesTier1
+    * DungeonEncounterAberrationsTier1
+    * DungeonEncounterCaveSpecificTier1
+  ]
+}
+
+CaveEncounterTier2 {
+  ^ [
+    * DungeonEncounterHumanoidsTier1
+    * DungeonEncounterVerminsTier2
+    * DungeonEncounterOozesTier2
+    * DungeonEncounterAberrationsTier2
+    * DungeonEncounterCaveSpecificTier2
+   ]
+}
+
+CaveEncounterTier3 {
+  ^ [
+    * DungeonEncounterVerminsTier3
+    * DungeonEncounterOozesTier3
+    * DungeonEncounterAberrationsTier3
+    * DungeonEncounterDragonsTier3
+    ]
+}
+
+CaveFeatureTier1 {
+  ^ [
+    *(x2) CaveEncounterTier1
+    * DungeonTreasureTier1
+    * DungeonRemains
+    * DungeonFungi
+    ]
+}
+
+CaveFeatureTier2 {
+  ^ [
+    *(x2) CaveEncounterTier2
+    * DungeonTreasureTier2
+    * DungeonRemains
+    * DungeonFungi
+    ]
+}
+
+CaveFeatureTier3 {
+  ^ [
+    *(x2) CaveEncounterTier3
+    * DungeonTreasureTier3
+    * DungeonRemains
+    * DungeonFungi
+    ]
+}
+
+Cavern(Dungeon) {
+  Name! @ CavernName
+  HexLink! = :Hex.uuid
+  Coords! = <%
+    <a class="map-coords" hex="{{HexLink}}" x="0" y="0" zoom="7"> </a>
+  %>
+  FactionLair @ FactionLair {
+    DungeonUUID = &uuid
+    Name = *Name
+    HexLink = &HexLink
+    Coords = &Coords
+  }
+
+  | Dungeon
+
+  DungeonFeatureTier1 = CaveFeatureTier1
+  DungeonFeatureTier2 = CaveFeatureTier2
+  DungeonFeatureTier3 = CaveFeatureTier3
+  DungeonFeatureTier4 = CaveFeatureTier4
+
+  map @ CaveMap
+
+  WanderingMonsters @ DungeonWanderingMonsters
+}
+

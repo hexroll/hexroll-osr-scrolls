@@ -1,0 +1,260 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+# This model contains Open Game Content, subject to the Open Game License,
+# released un the Open Game License, Version 1.0a (enclosed in the LICENSE
+# file), as described in Section 1(d) of the License.
+#
+PitTrapMonster {
+  ^ [
+    * InsectSwarm
+    * NormalRat
+    * SpittingCobra
+  ]
+}
+
+MonstersVerminTier1 {
+  ^ [
+    *(x3) GiantRat
+    *(x3) KillerBee
+    *(x3) NormalBat
+    *(x3) NormalRat
+    *(x3) SpittingCobra
+    *(x2) CaveLocust
+    *(x2) CrabSpider
+    *(x2) GiantBat
+    *(x2) GiantVampireBat
+    *(x2) InsectSwarm
+    *(x2) OilBeetle
+    *(x2) PitViper
+    *(x2) RobberFly
+    *(x1) CarcassCrawler
+    *(x1) BlackWidow
+    ]
+}
+
+MonstersVerminTier2 {
+  ^ [
+    *(x1) Tarantella
+    *(x1) ScorpionGiant
+    *(x1) RockPython
+    *(x1) GiantRattler
+    *(x1) DriverAnt
+    *(x1) CarcassCrawler
+    *(x1) BlackWidow
+    ]
+}
+
+MonstersVerminTier3 {
+^ [
+    * Caecilia
+    * PurpleWorm
+  ]
+}
+
+MonstersAberrationTier1 {
+  ^ [
+    * Stirge
+    ]
+}
+
+MonstersAberrationTier2 {
+  ^ [
+    * Cockatrice
+    * Harpy
+    * Hellhound
+    * HornedChameleon
+    * Hydra
+    * Minotaur
+    * OwlBear
+    * RustMonster
+    * Shrieker
+    * WarpBeast
+    ]
+}
+
+MonstersAberrationTier3 {
+  ^ [
+    * Cyclops
+    * DevilSwine
+    * Gorgon
+    * Minotaur
+    * WarpBeast
+    ]
+}
+
+MonstersAberrationTier4 {
+  ^ [
+    * PurpleWorm
+  ]
+}
+
+MonstersDragonsTier3 {
+  ^ [
+    * BlackDragon
+    * BlueDragon
+    * Chimera
+    ]
+}
+
+MonstersDragonsTier4 {
+  ^ [
+    * RedDragon
+  ]
+}
+
+MonstersHumanoidTier1 {
+  ^ [
+    *(x2) Goblin
+    *(x2) Orc
+    *(x2) Kobold
+    *(x1) Gnoll
+    *(x1) Troglodyte
+  ]
+}
+
+MonstersMagicalTier1 {
+  ^ [
+    * CrystalLivingStatue
+    * Medium
+    * Shadow
+    * WoodGolem
+    ]
+}
+
+MonstersMagicalTier2 {
+  ^ [
+    * BlinkDog
+    * Doppelganger
+    * Gargoyle
+    * IronLivingStatue
+    * Medusa
+    ]
+}
+
+MonstersMagicalTier3 {
+  ^ [
+    * AmberGolem
+    * BlackDragon
+    * BoneGolem
+    * DarkHag
+    * EfreetiLesser
+    * Gorgon
+    * InvisibleStalkerMonster
+    ]
+}
+
+MonstersMagicalTier3 {
+  ^ [
+    * BronzeGolem
+    * Cyclops
+    ]
+}
+
+MonstersOozeTier1 {
+  ^ [
+    * GreenSlime
+    * YellowMould
+    ]
+}
+
+MonstersOozeTier2 {
+  ^ [
+    * GelatinousCube
+    * GibberingMouther
+    * GreyOoze
+    * OchreJelly
+    ]
+}
+
+MonstersOozeTier3 {
+  ^ [
+    * BlackPudding
+    ]
+}
+
+MonsterUndeadTier1 {
+  ^ [
+    * Ghoul
+    * Mummy
+    * Skeleton
+    * Zombie
+  ]
+}
+
+MonsterUndeadTier2 {
+  ^ [
+    * Mummy
+    * Spectre
+    * Wight
+  ]
+}
+
+MonsterUndeadTier3 {
+  ^ [
+    * Vampire
+    * Wraith
+  ]
+}
+
+MonsterUndeadTier4 {
+  ^ [
+    * Lich
+  ]
+}
+
+MonsterCavernsTier1 {
+  ^ [
+  * CaveLocust
+  * CentipedeGiant
+  * GiantBat
+  * Rhagodessa
+  ]
+}
+
+MonsterCavernsTier2 {
+  ^ [
+      * FlailSnail
+      * Piercer
+  ]
+}
+
+MonsterCavernsTier3 {
+  ^ [
+    * CaveBear
+    * SabreToothedTiger
+    * WoollyRhinoceros
+  ]
+}
+
+MonsterCavernsTier4 {
+  ^ [
+    * Cyclops
+    * GiantCrocodile
+    * Mastodon
+    * Stegosaurus
+    * Triceratops
+    * TyrannosaurusRex
+  ]
+}
+
+MonsterCultistsTier1 {
+  ^ [
+    * Acolyte
+    * Medium
+   ]
+}
+
+MonsterTempleAnimalsTier1 {
+  ^ [
+    * ApeWhite
+    * BlackBear
+    * PolarBear
+    * Boar
+    * Lion
+    * Panther
+    * Tiger
+   ]
+}

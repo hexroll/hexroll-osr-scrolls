@@ -1,0 +1,89 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+Swamps {
+  Name! = Swamps
+  Supplemental! @ [
+    * The trees here are dark and dripping, leaning over the murky water.
+      There are hissing noises all around, and the air is thick and humid.
+
+    * These marshes are dark and thick. Rotting tree trunks are scattered
+      around, some are floating, some are splintered in the black mud.
+
+    * To walk here one must submerge deep in the swamp and suffer not only the wet
+      and mud, but the occasional leech and water centipede.
+
+    * The mud here is deep enough to sink a tall boot, and has boils that
+      emit a vile scent of rot into the air.
+
+    * Dense fog covers the wet ground here. It is difficult to tell what
+      lies ahead or what lurks under your feet.
+
+    * Tall and naked trees are all submerged in the muddy water. They
+      are so dense and close to each other, making navigation and travel a
+      challenge.
+
+    * The land here is drier, easier to walk on and can provide a good camping site.
+
+    * The area here is hilly and covered with soggy bushes growing between
+      many small streams of watery mud.
+
+    * The land here is mostly dry. A small lake with clear water provides a good
+      opportunity for fishing and camping next to it.
+
+    * Murky dark water cover most of the land here. Rotting tree trunks,
+      partially submerged, provide the occasional improvised beam bridge
+      for travel.
+
+    * Large, entangled roots provide some solid ground to walk on in
+      the desert of mud here.
+
+    * In between murky puddles, mudcracked patches of land provide a thin
+      dry crust to walk on. Few water bushes are sparsely scattered around.
+
+  ]
+
+  Location! @ [
+    * on the muddy lands
+    * on a dry patch of land
+    * beside a stream of water
+  ]
+
+  Hideout! @ [
+    * under a group of mounds in the area
+    * under a large patch of rotting tree trunks
+    * within the muddy hills
+    * under the ruins of an old keep
+    * under the ruins of an ancient settlement
+  ]
+}
+
+SwampsRandomEncounterTable {
+  [4..4 OtherEncounters!] @ SwampsRandomEncounter
+}
+
+SwampsHex (Hex) {
+  Terrain! @ Swamps
+  Monster! @ SwampsFeatureEncounter
+  RandomEncounters @ SwampsRandomEncounterTable
+  ExtensionTypeClass = "SwampsHexExtension"
+  | Hex
+}
+
+SwampsRegion (Region) {
+  Suffix @ [
+    * Moors
+    * Swamps
+    * Pools
+    * Wetlands
+  ]
+  | Region
+  Weather? @@ [
+    * TropicalWeatherContainer
+    * NormalWeatherContainer
+  ]
+  [$minimum_tiles_per_swamps_region..$maximum_tiles_per_swamps_region Hexmap?] @ SwampsHex
+}
+

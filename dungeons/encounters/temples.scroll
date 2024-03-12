@@ -1,0 +1,47 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+DungeonEncounterCultistsClasses {
+  ^ [
+    * MonsterCultistsTier1
+   ]
+}
+
+DungeonEncounterCultists(DungeonEncounter) {
+  Foreshadow! ~ <%
+    If listening to one of the doors here is successful, the faint voices
+    of <strong>chanting by cultists</strong> could be heard
+  %>
+
+  Hint! @ [
+    * There are cultists inside
+    * There are cloaked and hooded humans inside
+    * There are humans wearing red robes inside
+    * There are humans wearing dark robes inside
+  ]
+  Monster! @  DungeonEncounterCultistsClasses
+  | DungeonEncounter
+}
+
+DungeonEncounterTempleAnimalsClasses {
+  ^ [
+    * MonsterTempleAnimalsTier1
+  ]
+}
+
+DungeonEncounterTempleAnimals(DungeonEncounter) {
+  Monster! @ DungeonEncounterTempleAnimalsClasses
+  Foreshadow! ~ <%
+    A successful listening roll could detect the <strong>sounds</strong> that the
+    <strong>{{Monster.TitlePluralizedByRoaming}}</strong> {%if
+    Monster.NumberAppearingRoaming>1%}are{%else%}is{%endif%} making inside this
+    area
+    %>
+  Hint! @ [
+    * There’s some sort of a beast inside
+  ]
+
+  | DungeonEncounter
+}

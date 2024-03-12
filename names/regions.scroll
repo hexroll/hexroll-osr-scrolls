@@ -1,0 +1,82 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+kRegionNames = [
+  * Hell Pit
+  * Stargazer
+  * Dark Storm
+  * Ironhammer
+  * Nightshard
+  * Pantheon
+  * Goblinchaser
+  * Vazul's Spear
+  * Watermaze
+  * Dragon's Flame
+  * Goldseeker's
+  * Bonecrusher
+  * Blood Blade
+  * Battleworn
+  * Demon's Fork
+  * Devil's Eye
+  * Holloweye
+  * Gem of Elderia
+  * Dragon Fury
+  * Revenger
+  * Karla's Hammer
+  * Heart of Avaya
+  * Black Shield
+  * Dark Armor
+  * Nightmare
+  * Spiderweb
+  * Vicious
+  * Javelin
+  * Heartseeker
+  * Thousand Shrines
+  * Blackapple
+  * Redfeather
+  * Ragthorn
+  * Crimsonblade
+  * Nightshadow
+  * Halfmoon
+  * Howling Wolves
+  * Hell's Gate
+  * Aurora
+  * Sunbreak
+  * Goldmass
+  * Dragonclaw
+  * Moonwatcher
+  * Fallen Star
+  * Crater
+  * Savage
+  * Demonskull
+  * Wyvern's Sting
+  * Axe of Sal'zazoo
+  * Vortex
+  * Spiral
+  * Bloodborn
+  * Bloodforged
+  * Fireforged
+  * Iceforged
+  * Fireborn
+  * Iceborn
+  * Wintercry
+  * Summerwave
+  * Firefly
+  * Alvania
+  * Fearless
+  * Thunderwave
+  * Lifeless
+  * Arrowpoint
+  * Retribution
+  * Light of Valor
+  * Goldenswan
+  * Emerald
+  * Darkfall
+  * Grey Mist
+]
+
+RegionName {
+  Value! @ $kRegionNames
+}

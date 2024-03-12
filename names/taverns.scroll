@@ -1,0 +1,94 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+BaseTavernName {
+  Creature @ [
+    * Ghoul
+    * Mummy
+    * Skeleton
+    * Spectre
+    * Wight
+    * Wraith
+    * Zombie
+    * Werewolf
+    * Hawk
+    * Harpy
+    * Dragon
+    * Vampire
+    * Pixie
+    * Unicorn
+    * Orc
+    * Goblin
+    * Gnoll
+    * Ogre
+    * Troll
+  ]
+
+  Title @ [
+    * Devil
+    * Queen
+    * King
+    * Knight
+    * Hunter
+    * Baker
+    * Brewer
+    * Wizard
+    * Bard
+    * Rogue
+    * Mage
+    * Witch
+    * Paladin
+    * Peasant
+  ]
+
+  Object @ [
+    * Sword
+    * Mace
+    * Stone
+    * Torch
+    * Arrow
+    * Spear
+    * Staff
+  ]
+
+  LivingAdjective @ [
+    * Bleeding
+    * Fearless
+    * Gloomy
+    * Sad
+    * Crying
+    * Laughing
+    * Cursed
+  ]
+
+  StaticAdjective @ [
+    * Flaming
+    * Glowing
+    * Magic
+    * Black
+    * Cursed
+    * Lost
+  ]
+  Full! @ [
+    * "The {{Creature}} & The {{LivingAdjective}} {{Title}} {{Type}}"
+    * "The {{LivingAdjective}} {{Creature}} {{Type}}"
+    * "{{StaticAdjective}} {{Object}} {{Type}}"
+    * "The {{StaticAdjective}} {{Object}} {{Type}}"
+    * "The {{Title}}'s {{Object}} {{Type}}"
+  ]
+}
+
+TavernName(BaseTavernName) {
+  Type! = Tavern
+  | BaseTavernName
+}
+
+InnName(BaseTavernName) {
+  Type! @ [
+    * Inn
+    * Lodge
+  ]
+  | BaseTavernName
+}

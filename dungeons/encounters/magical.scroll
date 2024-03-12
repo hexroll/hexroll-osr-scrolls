@@ -1,0 +1,48 @@
+# Hexroll Scroll Model is open-source software released under the terms of the
+# GPL Affero Public License v3.
+#
+# Copyright (C) 2024 Ithai Levi ithai@pendicepaper.com
+#
+DungeonEncounterMagical(DungeonEncounter) {
+  | DungeonEncounter
+  Foreshadow! ~ <%
+    A successful listening roll could detect the sounds that the
+    <strong>{{Monster.TitlePluralizedByRoaming}}</strong> {%if
+    Monster.NumberAppearingRoaming>1%}are{%else%}is{%endif%} making inside this
+    area
+    %>
+  Hint! @ [
+    * You’re not alone here
+    * This is not looking good
+    * There’s something moving inside
+    * There’s movement inside
+    * A weird sensation is creeping up your spine
+    ]
+}
+
+DungeonEncounterMagicalTier2(DungeonEncounterMagical) {
+  Monster! @ MonstersMagicalTier2
+  | DungeonEncounterMagical
+}
+
+DungeonEncounterMagicalTier3(DungeonEncounterMagical) {
+  Monster! @ MonstersMagicalTier3
+  | DungeonEncounterMagical
+  Rumor @ DungeonMonsterRumor {
+    DungeonMonster = &Monster
+  }
+}
+
+DungeonEncounterMimic(DungeonEncounter) {
+  Monster! @ Mimic
+  | DungeonEncounter
+  Foreshadow! ~ <%
+    A successful search roll could detect the sticky substance that the
+    Mimic discharged %>
+  Hint! @ [
+    * The ground under your feet feels a bit sticky
+    * Your boots and feet feel sticky as you step forward
+    * There is an unfamiliar stench in the air
+    * There is a very unpleasant smell around here
+  ]
+}
