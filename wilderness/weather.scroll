@@ -99,7 +99,7 @@ MountainWeather {
 NormalWeatherVariant1(NormalWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th> <th> Warm Season     </th> <th> Dry Season     </th>  <th> Wet Season     </th> <th> Cold Season    </th </tr>
+    <tr> <th> {{dice_roller("2d6","2d6")}} </th> <th> Warm Season     </th> <th> Dry Season     </th>  <th> Wet Season     </th> <th> Cold Season    </th </tr>
 
     <tr> <td> <strong> 2     </strong> </td> <td> Rainy           </td> <td> Heatwave       </td>  <td> Thunderstorms  </td> <td> Blizzard       </td> </tr>
     <tr> <td> <strong> 3-4   </strong> </td> <td> Foggy           </td> <td> Clear & Humid  </td>  <td> Stormy         </td> <td> Snowstorm      </td> </tr>
@@ -113,7 +113,7 @@ NormalWeatherVariant1(NormalWeather) {
 NormalWeatherVariant2(NormalWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th> <th> Warm Season     </th> <th> Dry Season     </th>  <th> Wet Season     </th> <th> Cold Season    </th </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th> <th> Warm Season     </th> <th> Dry Season     </th>  <th> Wet Season     </th> <th> Cold Season    </th </tr>
 
     <tr> <td> <strong> 2     </strong> </td> <td> Cloudy          </td> <td> Clear & Humid  </td>  <td> Stormy         </td> <td> Snowstorm      </td> </tr>
     <tr> <td> <strong> 3-4   </strong> </td> <td> Partly Cloudy   </td> <td> Clear          </td>  <td> Rainy          </td> <td> Snowy          </td> </tr>
@@ -127,7 +127,7 @@ NormalWeatherVariant2(NormalWeather) {
 NormalWeatherVariant3(NormalWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th> <th> Warm Season     </th> <th> Dry Season     </th>  <th> Wet Season     </th> <th> Cold Season    </th </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th> <th> Warm Season     </th> <th> Dry Season     </th>  <th> Wet Season     </th> <th> Cold Season    </th </tr>
 
     <tr> <td> <strong> 2     </strong> </td> <td> Partly Cloudy   </td> <td> Clear          </td>  <td> Stormy         </td> <td> Blizzard      </td> </tr>
     <tr> <td> <strong> 3-4   </strong> </td> <td> Clear           </td> <td> Clear          </td>  <td> Rain & Wind    </td> <td> Snowstorm     </td> </tr>
@@ -141,11 +141,11 @@ NormalWeatherVariant3(NormalWeather) {
 NormalWeatherVariant4(NormalWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th> <th> Warm Season     </th> <th> Dry Season     </th>  <th> Wet Season     </th> <th> Cold Season    </th </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th> <th> Warm Season     </th> <th> Dry Season     </th>  <th> Wet Season     </th> <th> Cold Season    </th </tr>
 
     <tr> <td> <strong> 2     </strong> </td> <td> Heatwave        </td> <td> Scorching      </td>  <td> Stormy         </td> <td> Snowstorm      </td> </tr>
     <tr> <td> <strong> 3-4   </strong> </td> <td> Clear & Humid   </td> <td> Heatwave       </td>  <td> Rainy          </td> <td> Snowy          </td> </tr>
-    <tr> <td> <strong> 5-9   </strong> </td> <td> Partly Clouhy   </td> <td> Clear          </td>  <td> Rainy          </td> <td> Snowy          </td> </tr>
+    <tr> <td> <strong> 5-9   </strong> </td> <td> Partly Cloudy   </td> <td> Clear          </td>  <td> Rainy          </td> <td> Snowy          </td> </tr>
     <tr> <td> <strong> 10-11 </strong> </td> <td> Clear           </td> <td> Clear & Breezy </td>  <td> Rainy          </td> <td> Frost          </td> </tr>
     <tr> <td> <strong> 12    </strong> </td> <td> Clear & Breezy  </td> <td> Partly Cloudy  </td>  <td> Cloudy         </td> <td> Frost          </td> </tr>
     </table>
@@ -155,7 +155,7 @@ NormalWeatherVariant4(NormalWeather) {
 DesertWeatherVariant1(DesertWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th> <th> Warm Season &dagger;     </th> <th> Dry Season &dagger;    </th>  <th> Cold Season    </th </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th> <th> Warm Season &dagger;     </th> <th> Dry Season &dagger;    </th>  <th> Cold Season    </th </tr>
 
     <tr> <td> <strong> 2     </strong> </td> <td> Clear           </td> <td> Heatwave       </td>  <td> Clouds & Frost   </td> </tr>
     <tr> <td> <strong> 3-4   </strong> </td> <td> Clear           </td> <td> Clear          </td>  <td> Frost            </td> </tr>
@@ -177,7 +177,7 @@ DesertWeatherVariant1(DesertWeather) {
 DesertWeatherVariant2(DesertWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th> <th> Warm Season &dagger;     </th> <th> Dry Season &dagger;     </th>  <th> Cold Season    </th </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th> <th> Warm Season &dagger;     </th> <th> Dry Season &dagger;     </th>  <th> Cold Season    </th </tr>
 
     <tr> <td> <strong> 2     </strong> </td> <td> Heatwave        </td> <td> Scorching      </td>  <td> Hailstorm        </td> </tr>
     <tr> <td> <strong> 3-4   </strong> </td> <td> Clear           </td> <td> Heatwave       </td>  <td> Clouds & Frost   </td> </tr>
@@ -199,7 +199,7 @@ DesertWeatherVariant2(DesertWeather) {
 DesertWeatherVariant3(DesertWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th>  <th> Dry Season  &dagger;    </th>  <th> Cold Season    </th </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th>  <th> Dry Season  &dagger;    </th>  <th> Cold Season    </th </tr>
 
     <tr> <td> <strong> 2     </strong> </td>  <td> Scorching      </td>  <td> Icestorm         </td> </tr>
     <tr> <td> <strong> 3-4   </strong> </td>  <td> Heatwave       </td>  <td> Freezing         </td> </tr>
@@ -221,7 +221,7 @@ DesertWeatherVariant3(DesertWeather) {
 DesertWeatherVariant4(DesertWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th>  <th> Dry Season  &dagger;    </th>  </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th>  <th> Dry Season  &dagger;    </th>  </tr>
 
     <tr> <td> <strong> 2     </strong> </td>  <td> Scorcher       </td>  </tr>
     <tr> <td> <strong> 3-4   </strong> </td>  <td> Heatwave       </td>  </tr>
@@ -243,7 +243,7 @@ DesertWeatherVariant4(DesertWeather) {
 DesertWeatherVariant5(DesertWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th> <th> Warm Season &dagger;     </th> <th> Dry Season &dagger;     </th>  <th> Cold Season    </th </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th> <th> Warm Season &dagger;     </th> <th> Dry Season &dagger;     </th>  <th> Cold Season    </th </tr>
 
     <tr> <td> <strong> 2     </strong> </td> <td> Heatwave        </td> <td> Scorching      </td>  <td> Hailstorm      </td> </tr>
     <tr> <td> <strong> 3-4   </strong> </td> <td> Clear           </td> <td> Heatwave       </td>  <td> Frost          </td> </tr>
@@ -265,7 +265,7 @@ DesertWeatherVariant5(DesertWeather) {
 TropicalWeatherVariant1(TropicalWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th>  <th> Dry Season     </th>  <th> Wet Season &dagger;  </th> </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th>  <th> Dry Season     </th>  <th> Wet Season &dagger;  </th> </tr>
 
     <tr> <td> <strong> 2     </strong> </td>  <td> Heatwave      </td>  <td> Thunderstorms   </td>  </tr>
     <tr> <td> <strong> 3-4   </strong> </td>  <td> Cloudy         </td>  <td> Stormy         </td>  </tr>
@@ -287,7 +287,7 @@ TropicalWeatherVariant1(TropicalWeather) {
 TropicalWeatherVariant2(TropicalWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th>  <th> Dry Season     </th>  <th> Wet Season &dagger; </th> </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th>  <th> Dry Season     </th>  <th> Wet Season &dagger; </th> </tr>
 
     <tr> <td> <strong> 2     </strong> </td>  <td> Stormy         </td>  <td> Superstorm     </td>  </tr>
     <tr> <td> <strong> 3-4   </strong> </td>  <td> Rainy          </td>  <td> Stormy         </td>  </tr>
@@ -309,7 +309,7 @@ TropicalWeatherVariant2(TropicalWeather) {
 TropicalWeatherVariant3(TropicalWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th>  <th> Dry Season     </th>  <th> Wet Season &dagger; </th> </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th>  <th> Dry Season     </th>  <th> Wet Season &dagger; </th> </tr>
 
     <tr> <td> <strong> 2     </strong> </td>  <td> Thunderstorms  </td>  <td> Thunderstorms  </td>  </tr>
     <tr> <td> <strong> 3-4   </strong> </td>  <td> Stormy         </td>  <td> Stormy         </td>  </tr>
@@ -331,7 +331,7 @@ TropicalWeatherVariant3(TropicalWeather) {
 ArcticWeatherVariant1(ArcticWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th> <th> All Seasons &dagger;   </th </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th> <th> All Seasons &dagger;   </th </tr>
 
     <tr> <td> <strong> 2     </strong> </td> <td> Blizzard       </td> </tr>
     <tr> <td> <strong> 3-4   </strong> </td> <td> Snowstorm      </td> </tr>
@@ -353,7 +353,7 @@ ArcticWeatherVariant1(ArcticWeather) {
 ArcticWeatherVariant2(ArcticWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th> <th> All Seasons &dagger;   </th </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th> <th> All Seasons &dagger;   </th </tr>
 
     <tr> <td> <strong> 2     </strong> </td> <td> Snowstorm      </td> </tr>
     <tr> <td> <strong> 3-4   </strong> </td> <td> Heavy Snow     </td> </tr>
@@ -375,7 +375,7 @@ ArcticWeatherVariant2(ArcticWeather) {
 ArcticWeatherVariant3(ArcticWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th> <th> All Seasons  &dagger;  </th </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th> <th> All Seasons  &dagger;  </th </tr>
 
     <tr> <td> <strong> 2     </strong> </td> <td> Blizzard       </td> </tr>
     <tr> <td> <strong> 3-4   </strong> </td> <td> Snowy          </td> </tr>
@@ -397,7 +397,7 @@ ArcticWeatherVariant3(ArcticWeather) {
 MountainWeatherVariant1(MountainWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th> <th> Warm Season     </th> <th> Dry Season  &dagger;   </th>  <th> Wet Season &dagger;&dagger;    </th> <th> Cold Season &dagger;&dagger;&dagger;   </th </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th> <th> Warm Season     </th> <th> Dry Season  &dagger;   </th>  <th> Wet Season &dagger;&dagger;    </th> <th> Cold Season &dagger;&dagger;&dagger;   </th </tr>
 
     <tr> <td> <strong> 2     </strong> </td> <td> Rainy           </td> <td> Heatwave       </td>  <td> Thunderstorms  </td> <td> Blizzard       </td> </tr>
     <tr> <td> <strong> 3-4   </strong> </td> <td> Foggy           </td> <td> Cloudy         </td>  <td> Stormy         </td> <td> Snowstorm      </td> </tr>
@@ -433,7 +433,7 @@ MountainWeatherVariant1(MountainWeather) {
 MountainWeatherVariant2(MountainWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th> <th> Warm Season     </th> <th> Dry Season  &dagger;   </th>  <th> Wet Season &dagger;&dagger;    </th> <th> Cold Season &dagger;&dagger;&dagger;   </th </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th> <th> Warm Season     </th> <th> Dry Season  &dagger;   </th>  <th> Wet Season &dagger;&dagger;    </th> <th> Cold Season &dagger;&dagger;&dagger;   </th </tr>
 
     <tr> <td> <strong> 2     </strong> </td> <td> Partly Cloudy   </td> <td> Clear          </td>  <td> Stormy         </td> <td> Blizzard      </td> </tr>
     <tr> <td> <strong> 3-4   </strong> </td> <td> Clear           </td> <td> Clear          </td>  <td> Rain & Wind    </td> <td> Snowstorm     </td> </tr>
@@ -469,7 +469,7 @@ MountainWeatherVariant2(MountainWeather) {
 MountainWeatherVariant3(MountainWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th> <th> All Seasons    </th </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th> <th> All Seasons    </th </tr>
 
     <tr> <td> <strong> 2     </strong> </td> <td> Blizzard       </td> </tr>
     <tr> <td> <strong> 3-4   </strong> </td> <td> Snowstorm      </td> </tr>
@@ -491,7 +491,7 @@ MountainWeatherVariant3(MountainWeather) {
 MountainWeatherVariant4(MountainWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th> <th> All Seasons    </th </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th> <th> All Seasons    </th </tr>
 
     <tr> <td> <strong> 2     </strong> </td> <td> Snowstorm      </td> </tr>
     <tr> <td> <strong> 3-4   </strong> </td> <td> Heavy Snow     </td> </tr>
@@ -513,7 +513,7 @@ MountainWeatherVariant4(MountainWeather) {
 MountainWeatherVariant5(MountainWeather) {
   Description! ~ <%
     <table class='condensed'>
-    <tr> <th> 2d6   </th> <th> All Seasons    </th </tr>
+    <tr> <th>{{dice_roller("2d6","2d6")}}   </th> <th> All Seasons    </th </tr>
 
     <tr> <td> <strong> 2     </strong> </td> <td> Blizzard       </td> </tr>
     <tr> <td> <strong> 3-4   </strong> </td> <td> Snowy          </td> </tr>

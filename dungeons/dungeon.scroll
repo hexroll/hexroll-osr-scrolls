@@ -128,7 +128,7 @@ Dungeon { ^ $dungeon_classes
     {% set monsters_count = 10 %}
     {%endif%}
     <h5> Wandering Monsters </h5>
-    <p> There's a <strong>1-in-6</strong> chance of encountering one of: </p>
+    <p> There's a {{dice_roller("1d6","1 in 6")}} chance of encountering one of: </p>
     {%set counter.value=1%}
     <div class='condensed'></div>
     <table>
@@ -232,7 +232,7 @@ DungeonWanderingMonsters {
     {%endfor%}
     {% if monsters_count > 0 %}
     <h5> Wandering Monsters </h5>
-    <p> There's a <strong>1-in-6</strong> chance of encountering one of: </p>
+    <p> There's a {{dice_roller("1d6","1 in 6")}} chance of encountering one of: </p>
     {%set counter.value=1%}
     <div class='condensed'></div>
     <table>
