@@ -6,8 +6,8 @@
 DungeonFungi {
   Foreshadow! = none
   Hint! @ [
-    * Faint colorful light is emitting from everywhere
-    * There’s also a colorful glow emitting from the ground
+    * Faint colourful light is emitting from everywhere
+    * There’s also a colourful glow emitting from the ground
   ]
 
   Quantity @ [
@@ -27,11 +27,11 @@ DungeonFungi {
   Description! @ [
     * {{capitalize(Quantity)}} green and purple bioluminescent mushrooms are
       growing from cracks in the ground. Anyone consuming them {{Effect}}
-    * There are {{Quantity}} colorful bioluminescent mushrooms growing from
+    * There are {{Quantity}} colourful bioluminescent mushrooms growing from
       cracks in the ground. Anyone consuming these {{Effect}}
     * {{capitalize(Quantity)}} blue, red and yellow bioluminescent mushrooms
       are growing from cracks in the ground. Anyone consuming them {{Effect}}
-    * There are {{Quantity}} colorful bioluminescent mushrooms growing from
+    * There are {{Quantity}} colourful bioluminescent mushrooms growing from
       cracks in the ground. Anyone consuming these will gain the same
       effect as if they consumed {{articlize(PotionEffect.Description)}}
       ]

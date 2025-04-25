@@ -301,7 +301,7 @@ Artifact(Feature) {
   Name! = Ancient Artifact
   Description! @ [
     * When exploring this area, a <strong>huge disc-shaped artifact</strong> made
-      of polished iron, with wierd geometrical engravings, can be found wedged
+      of polished iron, with weird geometrical engravings, can be found wedged
     * When exploring this area, a <strong>giant triangular artifact</strong> made
       of polished iron, with large pointy spears attached, can be found wedged
   ]
@@ -464,7 +464,7 @@ Watchtower (Feature){
 
 CaravansPark (Feature){
   Name! = CaravansPark
-  Description! ~ <There’s a colorful and noisy caravans park>
+  Description! ~ <There’s a colourful and noisy caravans park>
   Supplemental! = ""
 }
 

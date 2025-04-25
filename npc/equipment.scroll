@@ -294,6 +294,10 @@ ArmorWeapon {
     * Sword
     * TwoHandedSword
     * Warhammer
+    *(x4) ArmorShield
+    *(x3) ArmorLeather
+    *(x2) ArmorChainmail
+    *(x1) ArmorPlatemail
     ]
 }
 
