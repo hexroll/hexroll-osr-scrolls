@@ -721,3 +721,27 @@ Warhammer (ArmorWeapon){
   Damage! = 1d6
   Cost! = 5
 }
+
+ArmorLeather(ArmorWeapon){
+  Title! ~ "Leather Armour"
+  AC! = "7 [12]"
+  Cost! = 30
+}
+
+ArmorChainmail(ArmorWeapon){
+  Title! ~ "Chainmail Armour"
+  AC! = "5 [14]"
+  Cost! = 60
+}
+
+ArmorPlatemail(ArmorWeapon){
+  Title! ~ "Plate-mail Armour"
+  AC! = "3 [16]"
+  Cost! = 200
+}
+
+ArmorShield(ArmorWeapon){
+  Title! ~ "Shield"
+  AC! = "+1"
+  Cost! = 20
+}
